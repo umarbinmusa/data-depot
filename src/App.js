@@ -28,6 +28,7 @@ import Electricityhis from "./Admindashbord/Electricityhis";
 import Exampinhis from "./Admindashbord/Exampinhis";
 import Login from "./Login/Login";
 import Register from "./Login/Register";
+import Land from "./pages/land";
 
 
 
@@ -42,7 +43,7 @@ function App() {
     
     <Routes>
       
-    <Route path='/' exact element={<Home />} />
+    <Route path='/' exact element={<Land />} />
       <Route path="Home" element={<Home /> } />
         <Route path="Data" element={<Data />} />
         <Route path="Userprofile" element={<Userprofile />} />
@@ -70,7 +71,8 @@ function App() {
         <Route path="Electricityhis" element={<Electricityhis/>} />
         <Route path="Exampinhis" element={<Exampinhis/>} />
         <Route path="Login" element={<Login/>} />
-        <Route path="Register" element={<Register/>} >
+        <Route path="Register" element={<Register/>} />
+        <Route path="Land" element={<Land/>} >
         
         
 

@@ -1,7 +1,7 @@
 function Register(){
     return(
 
-        <h1>hello</h1>
+        <h1>register</h1>
         );
 }
 export default Register;

@@ -5,11 +5,11 @@ function Data(){
 
         <div class="flex-col m-5   justify-items-center">
             <Navbar />
-        <div class="max-w-6xl px-5 mx-auto mt-3 text-center  bg-black text-white  shadow-lg m-5 p-5 ">
+        <div class="w-6xl px-5 mx-auto mt-3 text-center  bg-blue-900 text-white  shadow-lg m-5 p-5 ">
             <h1 class="text-center ">WELCOME TO Data MARKET</h1>
             <h2 class="text-center ">Buy Data at cheeper price</h2>
         </div>
-             <div class="max-w-6xl px-5 mx-auto mt-3 text-center bg-white shadow-lg m-5 p-5">
+             <div class="w-6xl px-5 mx-auto mt-3 text-center bg-white shadow-lg m-5 p-5">
              <div class="grid grid-cols-3 gap-3  space-x-5 mt-2  justify-items-center  ">
             <div>
               
@@ -66,7 +66,7 @@ function Data(){
            </div>
            <div class="flex mt-5 ">
           
-             <input type="submit" Value="ENTER"   class="block w-full bg-black rounded-lg border-0 py-1.5 text-white" />
+             <input type="submit" Value="ENTER"   class="block w-full bg-blue-900 rounded-lg border-0 py-1.5 text-white" />
            </div>
     
     
