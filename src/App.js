@@ -30,6 +30,8 @@ import Login from "./Login/Login";
 import Register from "./Login/Register";
 import Land from "./pages/land";
 import Loading from "./pages/loading";
+import Settings from "./pages/settings";
+import Forgotpass from "./Login/forgotpass";
 
 
 
@@ -44,7 +46,7 @@ function App() {
     
     <Routes>
       
-    <Route path='/' exact element={<Loading />} />
+    <Route path='/' exact element={<Land />} />
       <Route path="Home" element={<Home /> } />
         <Route path="Data" element={<Data />} />
         <Route path="Userprofile" element={<Userprofile />} />
@@ -74,7 +76,9 @@ function App() {
         <Route path="Login" element={<Login/>} />
         <Route path="Register" element={<Register/>} />
         <Route path="Land" element={<Land/>} />
-        <Route path="Loading" element={<Loading/>} >
+        <Route path="Loading" element={<Loading/>} />
+        <Route path="Settings" element={<Settings/>} >
+        <Route path="Forgotpass" element={<Forgotpass/>} />
 
 
         

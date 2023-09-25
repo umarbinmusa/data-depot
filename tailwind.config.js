@@ -21,9 +21,6 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
-      animation: {
-        'spin-slow': 'spin 3s linear infinite',
-      },
       keyframes: {
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
