@@ -1,5 +1,5 @@
 {
-  "name": "my-react-app",
+  "name": "data-depot",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -38,5 +38,9 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.2.7"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC"
 }
