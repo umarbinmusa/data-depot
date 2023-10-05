@@ -1,12 +1,16 @@
 function loading() {
     return (
-        <button type="button" class="bg-indigo-500 ..." >
-  <svg class=" animate-spin h-3 w-3 mr-3 ml-4" viewBox="0 0 24 24">
-  
-  </svg>
-  Processing...
-</button>
-           );
+      <div
+      class=" flex inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status">
+      <span
+        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+        >Loading...</span
+      >
+    </div>
+
+      
+    );
 }
 export default loading;
     

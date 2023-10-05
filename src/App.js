@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route  } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Data from "./pages/Data";
 import Electricity from "./pages/Electricity";
@@ -41,13 +41,13 @@ import Forgotpass from "./Login/forgotpass";
 
 
 function App() {
-  return( 
+  return (
     <BrowserRouter>
-    
-    <Routes>
-      
-    <Route path='/' exact element={<Land />} />
-      <Route path="Home" element={<Home /> } />
+
+      <Routes>
+
+        <Route path='/' exact element={<Land />} />
+        <Route path="Home" element={<Home />} />
         <Route path="Data" element={<Data />} />
         <Route path="Userprofile" element={<Userprofile />} />
         <Route path="Electricity" element={<Electricity />} />
@@ -59,39 +59,39 @@ function App() {
         <Route path="Exampins" element={<Exampins />} />
         <Route path="Ambassadors" element={<Ambassadors />} />
         <Route path="Datapins" element={<Datapins />} />
-        <Route path="Airtime" element={<Airtime/>} />
-        <Route path="Refund" element={<Refund/>} />
-        <Route path="Deposite" element={<Deposite/>} />
-        <Route path="Transfer" element={<Transfer/>} />
-        <Route path="Contact" element={<Contact/>} />
-        <Route path="Admin" element={<Admin/>} />
-        <Route path="Airtimehis" element={<Airtimehis/>} />
-        <Route path="Datahis" element={<Datahis/>} />
-        <Route path="Cabletvhis" element={<Cabletvhis/>}  />
-        <Route path="Currencyhis" element={<Currencyhis/>} />
-        <Route path="Depositehis" element={<Depositehis/>} />
-        <Route path="Refundhis" element={<Refundhis/>} />
-        <Route path="Electricityhis" element={<Electricityhis/>} />
-        <Route path="Exampinhis" element={<Exampinhis/>} />
-        <Route path="Login" element={<Login/>} />
-        <Route path="Register" element={<Register/>} />
-        <Route path="Land" element={<Land/>} />
-        <Route path="Loading" element={<Loading/>} />
-        <Route path="Settings" element={<Settings/>} >
-        <Route path="Forgotpass" element={<Forgotpass/>} />
-
-
-        
-        
+        <Route path="Airtime" element={<Airtime />} />
+        <Route path="Refund" element={<Refund />} />
+        <Route path="Deposite" element={<Deposite />} />
+        <Route path="Transfer" element={<Transfer />} />
+        <Route path="Contact" element={<Contact />} />
+        <Route path="Admin" element={<Admin />} />
+        <Route path="Airtimehis" element={<Airtimehis />} />
+        <Route path="Datahis" element={<Datahis />} />
+        <Route path="Cabletvhis" element={<Cabletvhis />} />
+        <Route path="Currencyhis" element={<Currencyhis />} />
+        <Route path="Depositehis" element={<Depositehis />} />
+        <Route path="Refundhis" element={<Refundhis />} />
+        <Route path="Electricityhis" element={<Electricityhis />} />
+        <Route path="Exampinhis" element={<Exampinhis />} />
+        <Route path="Login" element={<Login />} />
+        <Route path="Register" element={<Register />} />
+        <Route path="Land" element={<Land />} />
+        <Route path="Loading" element={<Loading />} />
+        <Route path="Settings" element={<Settings />} />
+        <Route path="Forgotpass" element={<Forgotpass />} >
 
 
 
-        
-        
-      </Route>
-    </Routes>
-  </BrowserRouter>
-  
+
+
+
+
+
+
+        </Route>
+      </Routes>
+    </BrowserRouter>
+
 
   );
 }

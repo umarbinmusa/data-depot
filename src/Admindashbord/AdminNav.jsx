@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 function AdminNav(){
     return(
         <div className="flex">
-        <div className="flex flex-col  p-3 bg-gray-800 shadow w-90">
+        <div className="flex flex-col  p-3 bg-blue-900 shadow-lg w-90">
             <div className="space-y-3">
                 <div className="flex items-center">
                     <h2 className="text-xl font-bold text-white">Dashboard</h2>
@@ -38,396 +39,142 @@ function AdminNav(){
                 <div className="flex-1">
                     <ul className="pt-2 pb-4 space-y-1 text-sm">
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="/Depositehis">
+
+                                <img src="images/icons8-add-67.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Deposite</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="/Depositehis">
+
+
+                                <img src="images/icons8-initiate-money-transfer-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Transfer</span>
-                            </a>
+
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="Airtimehis"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="/Airtimehis">
+
+                                <img src="images/phone.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Contact</span>
-                            </a>
+
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <img className="w-6 h-6 text-gray-100" src="./images/arrow.png" alt="" />
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="/Airtimehis">
+
+                                <img src="images/icons8-phone-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Airtime</span>
-                            </a>
+
+                            </Link>
                         </li>
+
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="Datahis">
+                                <img src="images/icons8-wifi-50.png" class="w-5" alt="" />
+
+
+
                                 <span className="text-gray-100">Data</span>
-                            </a>
+
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
-                                <span className="text-gray-100">CableTv</span>
-                            </a>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+                                <img src="images/icons8-tv-50.png" class="w-5" alt="" />
+
+                                <span className="text-gray-100">Cabletv</span>
+                            </Link>
                         </li>
+
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+                                <img src="images/icons8-dollar-ethereum-exchange-50.png" class="w-5" alt="" />
+
                                 <span className="text-gray-100">Currency</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+
+                                <img src="images/icons8-magnetic-card-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Datapins</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+                                <img src="images/icons8-hamburger-menu-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">History</span>
-                            </a>
+                            </Link>
                         </li>
+
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
-                                <span className="text-gray-100">Rechargecard</span>
-                            </a>
-                        </li>
-                        <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+
+                                <img src="images/icons8-male-user-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Userprofile</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+                                <img src="images/icons8-phone-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Refond</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+                                <img src="images/icons8-graduation-cap-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Exampin</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+
+                                <img src="images/icons8-light-on-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Electricity</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+
+                                <img src="images/icons8-male-user-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Agent</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+
+                                <img src="images/icons8-settings-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Settings</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+
+                                <img src="images/icons8-collaborating-in-circle-50.png" class="w-5" alt="" />
                                 <span className="text-gray-100">Ambassadors</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="rounded-sm">
-                            <a
-                                href="#"
-                                className="flex items-center p-2 space-x-3 rounded-md"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-gray-100"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                                    />
-                                </svg>
+                            <Link class="flex items-center p-2 space-x-3 rounded-md" to="">
+                                <img src="images/" alt="" />
                                 <span className="text-gray-100">Logout</span>
-                            </a>
+                            </Link>
                         </li>
-                    
-                    
-                    
+
+
+
                     </ul>
                 </div>
             </div>
         </div>
         </div>
+
+
+
+   
     );
 }
 export default AdminNav;

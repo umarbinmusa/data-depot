@@ -47,8 +47,11 @@ function land() {
                    <Link to="/Register"> <input class="inline-block bg-indigo-500  px-10 py-5 rounded-full shadow-lg uppercase text-lg tracking-wide mt-5 ml-12" type="button" value="Register" /></Link>
                    <Link to=""> <input class="inline-block bg-indigo-500  px-10 py-5 rounded-full shadow-lg uppercase text-lg tracking-wide mt-5 ml-12" type="button" value="Download App" /> </Link>
                 </div>
+                
 
             </div>
+            <div class=" text-center flex lg:items-center lg:justify-items-center lg:text-center"> <h1 class=" items-center justify-items-center"> copyright @ 2023 spp-data-depot dev </h1></div>
+          
 
 
         </div>
