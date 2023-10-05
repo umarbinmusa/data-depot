@@ -7,8 +7,11 @@ const path = require("path");
 const morgan = require("morgan");
 const colors = require("colors");
 const app = express();
+
 // file imports
 const ConnectDB = require("./utils/Connect");
+const errorHandlerMiddleware = require("./middlewares/error-handler");
+const notFoundMiddleware = require("./middlewares/not-found");
 
 // middleware
 require("dotenv").config();
@@ -39,11 +42,11 @@ const start = async () => {
   }
 };
 
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+app.get("*", (req, res) => {
+  res.status(200).sendFile(`${__dir / name}/client/build/index.html`); // send the index page when user visits root route
+  // res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
-app.all("*", (req, res) => {
-  res.send("Route not found");
-});
 start();
