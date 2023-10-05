@@ -13,7 +13,8 @@ const userModel = mongoose.Schema({
     lowercase: true,
   },
   phoneNumber: { type: String, required: true, trim: true },
-  role: { enum: ["user", "admin", "agent"] },
+  state: { type: String, required: true },
+  role: { enum: ["user", "admin", "ambassador"] },
 });
 
 module.exports = mongoose.model("user", userModel);
