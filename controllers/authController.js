@@ -53,7 +53,7 @@ const register = async (req, res) => {
   const user = await User.create(req.body);
   res
     .status(StatusCodes.CREATED)
-    .json({ ...user, msg: "registration successful" });
+    .json({ ...user._doc, msg: "registration successful" });
   // generate Account numbers
   generateAcc({ ...req.body });
   // if referred by someone
