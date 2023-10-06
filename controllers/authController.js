@@ -58,7 +58,6 @@ const register = async (req, res) => {
   generateAcc({ ...req.body });
   // if referred by someone
   if (referredBy) saveReferral({ ...req.body });
-  // code goes here
 };
 const login = (req, res) => {
   res.send("login");
