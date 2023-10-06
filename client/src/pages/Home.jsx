@@ -15,13 +15,13 @@ function Home() {
 
           <div class="grid grid-cols-3 gap-3  space-x-7 mt-7  justify-items-center p-5 ">
             <div class="text-center">
-              <Link to="Deposite">
+              <Link to="Deposit">
                 <img
                   src="./images/icons8-plus-50.png"
                   class=" bg-white rounded-xl m-4 p-3"
                   alt=""
                 />
-                <p class="text-white ease-in-out duration-300">Deposite</p>
+                <p class="text-white ease-in-out duration-300">Deposit</p>
               </Link>
             </div>
             <div class="text-center">
