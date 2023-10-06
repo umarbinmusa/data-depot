@@ -46,7 +46,7 @@ app.get("*", (req, res) => {
   res.status(200).sendFile(`${__dir / name}/client/build/index.html`); // send the index page when user visits root route
   // res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
-// app.use(notFoundMiddleware);
-// app.use(errorHandlerMiddleware);
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 start();
