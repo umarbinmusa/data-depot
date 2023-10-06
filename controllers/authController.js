@@ -3,31 +3,8 @@ const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, CustomAPIError } = require("../errors");
 const { comparePassword, hashPassword } = require("../utils/passwordUtils.js");
 const generateAcc = require("../utils/accountNumbers");
+const saveReferral = require("../utils/referral");
 
-// const register = async (req, res) => {
-//   const {
-//     userName,
-//     email,
-//     state,
-//     password,
-//     passwordCheck,
-//     phoneNumber,
-//     referredBy,
-//   } = req.body;
-//   if (
-//     !email ||
-//     !userName ||
-//     !password ||
-//     !passwordCheck ||
-//     !phoneNumber ||
-//     !state
-//   ) {
-//     throw new CustomAPIError("All field are required");
-//   }
-//   const created = await User.create(req.user);
-
-//   res.StatusCodes.OK;
-// };
 const register = async (req, res) => {
   const isFirstAccount = (await User.countDocuments()) === 0;
   req.body.role = isFirstAccount ? "admin" : "user";
@@ -51,6 +28,7 @@ const register = async (req, res) => {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ msg: "All fields are required" });
+
   // VALIDATION
   if (password.length < 5)
     return res
@@ -79,6 +57,7 @@ const register = async (req, res) => {
   // generate Account numbers
   generateAcc({ ...req.body });
   // if referred by someone
+  if (referredBy) saveReferral({ ...req.body });
   // code goes here
 };
 const login = (req, res) => {

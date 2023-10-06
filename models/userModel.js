@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   state: { type: String, required: true },
   password: { type: String, required: [true, "enter a password"] },
   balance: { type: Number, min: 0, default: 0 },
+  bonusBalance: { type: Number, min: 0 },
   role: {
     enum: ["user", "admin", "ambassador"],
     type: String,
@@ -32,6 +33,7 @@ const userSchema = new mongoose.Schema({
   referredBy: { type: String },
   state: { type: String, lowercase: true },
   accountNumbers: [{ bankName: String, accountNumber: String }],
+  referrals: [{ userName: String, totalEarned: Number }],
 });
 
 userSchema.pre("save", async function () {
