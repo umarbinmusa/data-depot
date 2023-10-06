@@ -10,8 +10,8 @@ function Home() {
 
       <div class="flex-col bg-blue-900 rounded-xl shadow-lg  ">
         <div class="flex-col">
-          <p class="pt-2 text-center text-3xl text-white">Hello Umar Musa!</p>
-          <h1 class="text-center mt-7 text-3xl text-white">Bal: N 900,000</h1>
+          <p class="pt-2 text-center text-3xl text-white">SPP DATA DEPOT</p>
+          <h1 class="text-center mt-7 text-3xl text-white">Bal: N 650,005</h1>
 
           <div class="grid grid-cols-3 gap-3  space-x-7 mt-7  justify-items-center p-5 ">
             <div class="text-center">

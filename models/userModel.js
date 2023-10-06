@@ -22,6 +22,7 @@ const userModel = mongoose.Schema({
     type: String,
     default: "user",
   },
+  referredBy: { type: String },
 });
 
 userSchema.pre("save", async function () {
@@ -29,4 +30,4 @@ userSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
-module.exports = mongoose.model("user", userModel);
+module.exports = mongoose.model("User", userModel);
