@@ -14,7 +14,12 @@ function Register() {
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                         <input type="email" id="email" class="w-96 hadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="" required />
                     </div>
-                    
+                    <div class="mb-6">
+                        <label for="refferals" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">refferals ID</label>
+                        <input type="refferals" id="refferals" class="w-96 hadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    </div>
+
+
                     <div class="mb-6">
                         <label for="UserName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your User Name</label>
                         <input type="Username" id="username" class="w-96 hadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required />
@@ -33,37 +38,45 @@ function Register() {
                     </div>
                     <div class="mb-6">
                         <label for="State" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State of Origin</label>
-                        <select id="select a State" name="State"  class="block w-full rounded-lg border-0 py-1.5 text-gray-900">
-                            <option>Select State</option>
-                            <option>Kaduna</option>
-                            <option>kano</option>
-                            <option>Katsina</option>
-                            <option>kebi</option>
-                            <option>Borno</option>
-                            <option>kogi</option>
-                            <option>kwara</option>
-                            <option>Adamawa</option>
-                            <option>oyo</option>
-                            <option>ondo</option>
-                            <option>osun</option>
-                            <option>Anambara</option>
-                            <option>Ekiti</option>
-                            <option>Cross River</option>
-                            <option>Lagos</option>
-                            <option>Akwaibom</option>
-                            <option>Bauchi</option>
-                            <option>Gombe</option>
-                            <option>Imo</option>
-                            <option>Enugu</option>
-                            <option>Abia</option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
-                            <option></option>
+                        <select id="select a State" name="State" class="block w-full rounded-lg border-0 py-1.5 text-gray-900">
+
+                            <option value="Abia">Abia</option>
+                            <option value="Adamawa">Adamawa</option>
+                            <option value="Akwa Ibom">Akwa Ibom</option>
+                            <option value="Anambra">Anambra</option>
+                            <option value="Bauchi">Bauchi</option>
+                            <option value="Bayelsa">Bayelsa</option>
+                            <option value="Benue">Benue</option>
+                            <option value="Borno">Borno</option>
+                            <option value="Cross River">Cross River</option>
+                            <option value="Delta">Delta</option>
+                            <option value="Ebonyi">Ebonyi</option>
+                            <option value="Edo">Edo</option>
+                            <option value="Ekiti">Ekiti</option>
+                            <option value="Enugu">Enugu</option>
+                            <option value="Gombe">Gombe</option>
+                            <option value="Imo">Imo</option>
+                            <option value="Jigawa">Jigawa</option>
+                            <option value="Kaduna">Kaduna</option>
+                            <option value="Kano">Kano</option>
+                            <option value="Katsina">Katsina</option>
+                            <option value="Kebbi">Kebbi</option>
+                            <option value="Kogi">Kogi</option>
+                            <option value="Kwara">Kwara</option>
+                            <option value="Lagos">Lagos</option>
+                            <option value="Nasarawa">Nasarawa</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Ogun">Ogun</option>
+                            <option value="Ondo">Ondo</option>
+                            <option value="Osun">Osun</option>
+                            <option value="Oyo">Oyo</option>
+                            <option value="Plateau">Plateau</option>
+                            <option value="Rivers">Rivers</option>
+                            <option value="Sokoto">Sokoto</option>
+                            <option value="Taraba">Taraba</option>
+                            <option value="Yobe">Yobe</option>
+                            <option value="Zamfara">Zamfara</option>
+
                         </select>
 
                     </div>
