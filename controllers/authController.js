@@ -1,6 +1,5 @@
 const User = require("../models/userModel");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, CustomAPIError } = require("../errors");
 const { comparePassword, hashPassword } = require("../utils/passwordUtils.js");
 const generateAcc = require("../utils/accountNumbers");
 const saveReferral = require("../utils/referral");
