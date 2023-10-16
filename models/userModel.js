@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const randomToken = require("rand-token");
 const userSchema = new mongoose.Schema({
   userName: {
     type: String,
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema({
   balance: { type: Number, min: 0, default: 0 },
   bonusBalance: { type: Number, min: 0 },
   role: {
-    enum: ["user", "admin", "ambassador"],
+    enum: ["user", , "reseller", "admin", "ambassador"],
     type: String,
     default: "user",
   },
@@ -34,11 +35,25 @@ const userSchema = new mongoose.Schema({
   state: { type: String, lowercase: true },
   accountNumbers: [{ bankName: String, accountNumber: String }],
   referrals: [{ userName: String, totalEarned: Number }],
+  apiKey: { type: String },
+  lastLogin: { type: Date },
 });
 
+// methods
+userSchema.methods.createJWT = function () {
+  return jwt.sign(
+    {
+      userId: this._id,
+      userType: this.userType,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+};
+// create apiKey before save user
 userSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  return (this.apiKey = await randomToken.generate(30));
 });
 module.exports = mongoose.model("User", userSchema);
