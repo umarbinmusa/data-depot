@@ -1,98 +1,90 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Data from "./pages/Data";
-import Electricity from "./pages/Electricity";
-import History from "./pages/history";
-import Cabletv from "./pages/Cabletv";
-import Agent from "./pages/Agent";
-import Currency from "./pages/Currency";
-import Rechargecard from "./pages/Rechargecard";
-import Exampins from "./pages/Exampins";
-import Airtime from "./pages/Airtime";
-import Datapins from "./pages/Datapins";
-import Deposite from "./pages/Deposite";
+// MODULE IMPORT
+import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import "./style.css";
+import { useGlobalContext } from "./context/UserContext";
+import Landing from "./pages/Landing";
+
+// PAGES
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/SharedLayout";
+import NotFound from "./pages/NotFound";
+import BuyData from "./pages/BuyData";
+import DashBoard from "./pages/DashBoard";
+import Landing2 from "./pages/Landing2";
+import BuyAirtime from "./pages/BuyAirtime";
+import Transactions from "./pages/Transactions";
 import Transfer from "./pages/Transfer";
-import Contact from "./pages/Contact";
-import Refund from "./pages/Refund";
-import Ambassadors from "./pages/Ambassadors";
-import Userprofile from "./pages/Userprofile";
-import Admin from "./Admindashbord/Admin";
-import Airtimehis from "./Admindashbord/Airtimehis";
-import Datahis from "./Admindashbord/Datahis";
-import Cabletvhis from "./Admindashbord/Cabletvhis";
-import Currencyhis from "./Admindashbord/Currencyhis";
-import Depositehis from "./Admindashbord/Depositehis";
-import Refundhis from "./Admindashbord/Refundhis";
-import Electricityhis from "./Admindashbord/Electricityhis";
-import Exampinhis from "./Admindashbord/Exampinhis";
-import Login from "./Login/Login";
-import Register from "./Login/Register";
-import Land from "./pages/land";
-import Loading from "./pages/loading";
-import Settings from "./pages/settings";
-import Forgotpass from "./Login/forgotpass";
+import UserDetails from "./pages/UserDetails";
+import Settings from "./pages/Settings";
+import FundWallet from "./pages/FundWallet";
+import RequestResetPassword from "./pages/RequestResetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
+import Admin from "./pages/Admin/Admin";
+import MyUsers from "./pages/Admin/MyUsers";
+import GenerateCoupon from "./pages/Admin/GenerateCoupon";
+import SendEmail from "./pages/Admin/SendEmail";
+import PriceList from "./pages/PriceList";
+import Loading from "./components/Loading";
+import WhatsAppIcon from "./components/WhatsAppIcon";
+import BuyElectricity from "./pages/BuyElectricity";
+import UpdatePrice from "./pages/UpdatePrice";
 
+export default function App() {
+  const { token, checkLoggedIn, isLoading } = useGlobalContext();
 
+  useEffect(() => {
+    if (token) checkLoggedIn();
+    // eslint-disable-next-line
+  }, [token]);
 
-
-
-
-
-function App() {
   return (
-    <BrowserRouter>
-
+    <>
+      {isLoading && <Loading />}
+      <WhatsAppIcon />
       <Routes>
-
-        <Route path='/' exact element={<Land />} />
-        <Route path="Home" element={<Home />} />
-        <Route path="Data" element={<Data />} />
-        <Route path="Userprofile" element={<Userprofile />} />
-        <Route path="Electricity" element={<Electricity />} />
-        <Route path="History" element={<History />} />
-        <Route path="Cabletv" element={<Cabletv />} />
-        <Route path="Agent" element={<Agent />} />
-        <Route path="Currency" element={<Currency />} />
-        <Route path="Rechargecard" element={<Rechargecard />} />
-        <Route path="Exampins" element={<Exampins />} />
-        <Route path="Ambassadors" element={<Ambassadors />} />
-        <Route path="Datapins" element={<Datapins />} />
-        <Route path="Airtime" element={<Airtime />} />
-        <Route path="Refund" element={<Refund />} />
-        <Route path="Deposite" element={<Deposite />} />
-        <Route path="Transfer" element={<Transfer />} />
-        <Route path="Contact" element={<Contact />} />
-        <Route path="Admin" element={<Admin />} />
-        <Route path="Airtimehis" element={<Airtimehis />} />
-        <Route path="Datahis" element={<Datahis />} />
-        <Route path="Cabletvhis" element={<Cabletvhis />} />
-        <Route path="Currencyhis" element={<Currencyhis />} />
-        <Route path="Depositehis" element={<Depositehis />} />
-        <Route path="Refundhis" element={<Refundhis />} />
-        <Route path="Electricityhis" element={<Electricityhis />} />
-        <Route path="Exampinhis" element={<Exampinhis />} />
-        <Route path="Login" element={<Login />} />
-        <Route path="Register" element={<Register />} />
-        <Route path="Land" element={<Land />} />
-        <Route path="Loading" element={<Loading />} />
-        <Route path="Settings" element={<Settings />} />
-        <Route path="Forgotpass" element={<Forgotpass />} >
-
-
-
-
-
-
-
-
-
+        {/* <Route exact path="/" element={<Landing />} /> */}
+        <Route exact path="/" element={<Landing2 />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/register">
+          <Route index element={<Register />} />
+          <Route path=":referralId" element={<Register />} />
         </Route>
+        <Route exact path="/profile" element={token ? <Profile /> : <Login />}>
+          <Route index element={<DashBoard />} />
+          <Route path="buyData" element={<BuyData />} />
+          <Route path="buyAirtime" element={<BuyAirtime />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="transfer" element={<Transfer />} />
+          <Route path="user" element={<UserDetails />} />
+          <Route path="changePassword" element={<Settings />} />
+          <Route path="fundWallet" element={<FundWallet />} />
+          <Route path="electricity" element={<BuyElectricity />} />
+          <Route path="updatePrice" element={<UpdatePrice />} />
+        </Route>
+        {/* ADMIN */}
+        <Route path="/admin" element={<Profile />}>
+          <Route index element={<Admin />} />
+          <Route path="generateCoupon" element={<GenerateCoupon />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="users" element={<MyUsers />} />
+          <Route path="sendmail" element={<SendEmail />} />
+        </Route>
+        <Route
+          exact
+          path="/requestPasswordReset"
+          element={<RequestResetPassword />}
+        />
+        <Route exact path="/priceList" element={<PriceList />} />
+
+        <Route exact path="/passwordReset" element={<ResetPassword />}>
+          <Route index element={<ResetPassword />} />
+          <Route path=":token/:userId" />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
-
-
+    </>
   );
 }
-export default App;
