@@ -1,15 +1,22 @@
-const User = require("../models/userModel");
+const User = require("../Models/usersModel");
 const axios = require("axios");
 const generateAcc = async ({ userName, email }) => {
-  const { MONNIFY_API_URL, MONNIFY_API_ENCODED, MONNIFY_API_CONTRACT_CODE } =
-    process.env;
+  const {
+    MONNIFY_API_URL,
+    MONNIFY_API_KEY,
+    MONNIFY_API_CONTRACT_CODE,
+    MONNIFY_API_SECRET,
+  } = process.env;
+  const ApiKeyEncoded = Buffer.from(
+    MONNIFY_API_KEY + ":" + MONNIFY_API_SECRET
+  ).toString("base64");
   try {
     const response = await axios.post(
       `${MONNIFY_API_URL}/api/v1/auth/login`,
       {},
       {
         headers: {
-          Authorization: `Basic ${MONNIFY_API_ENCODED}`,
+          Authorization: `Basic ${ApiKeyEncoded}`,
         },
       }
     );
