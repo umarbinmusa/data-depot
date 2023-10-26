@@ -41,11 +41,18 @@ const userSchema = new mongoose.Schema({
   reservedAccountBank3: { type: String },
   reservedAccountNo3: { type: String },
   lastLogin: { type: Date },
-  userType: {
+  bonusBalance: { type: Number, min: 0 },
+  role: {
+    enum: ["user", , "reseller", "admin", "ambassador"],
     type: String,
-    default: "smart earner",
-    enum: ["smart earner", "reseller", "api user"],
+    default: "user",
   },
+  referredBy: { type: String },
+  state: { type: String, lowercase: true },
+  accountNumbers: [{ bankName: String, accountNumber: String }],
+  referrals: [{ userName: String, totalEarned: Number }],
+  apiKey: { type: String },
+  lastLogin: { type: Date },
   balance: { type: Number, default: 0 },
   createdAt: {
     type: Date,
