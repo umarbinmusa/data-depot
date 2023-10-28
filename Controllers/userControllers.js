@@ -14,7 +14,7 @@ const cabletvModel = require("../Models/cabletvModel");
 // UTILS
 const newReferral = require("../Utils/newReferral");
 const sendEmail = require("../Utils/sendMail");
-const generateAccountNumber = require("../Utils/generateAccountNumber");
+// const generateAccountNumber = require("../Utils/generateAccountNumber");
 
 // OTHERS
 const { cableName } = require("../API_DATA/cableName");
@@ -23,15 +23,29 @@ const { network } = require("../API_DATA/network");
 const { TRANSFER_RECEIPT, BONUS_RECEIPT } = require("./TransactionReceipt");
 const { MTN_CG, MTN_SME } = require("../API_DATA/newData");
 // const generateVpayAcc = require("../Utils/generateVpayAccount");
-const generateAcc = require("../Utils/accountNumbers");
+const generateAcc = require("../Utils/account");
 
 const register = async (req, res) => {
-  let { email, password, passwordCheck, userName, referredBy, phoneNumber } =
-    req.body;
+  let {
+    email,
+    password,
+    passwordCheck,
+    userName,
+    referredBy,
+    phoneNumber,
+    state,
+  } = req.body;
 
   // validate
 
-  if (!email || !password || !passwordCheck || !userName || !phoneNumber) {
+  if (
+    !email ||
+    !password ||
+    !passwordCheck ||
+    !userName ||
+    !phoneNumber ||
+    !state
+  ) {
     return res.status(400).json({ msg: "Not all fields have been entered." });
   }
   if (password.length < 5)
@@ -56,17 +70,11 @@ const register = async (req, res) => {
   try {
     await User.create({ ...req.body });
     // generate account number
-    await generateAccountNumber({ userName, email });
+    // await generateAccountNumber({ userName, email });
     await generateAcc({ userName, email });
     const user = await User.findOne({ email });
     const token = user.createJWT();
-    // if (!user.reservedAccountNo3) {
-    //   let firstName = user.userName.split(" ")[0];
-    //   let lastName = user.userName.split(" ")[1] || user.userName;
-    //   let phoneNumber = user.phoneNumber;
-    //   let email = user.email;
-    //   // await generateVpayAcc({ email, firstName, lastName, phoneNumber });
-    // }
+
     const allDataList = await Data.find();
     const MTN_SME_PRICE = allDataList
       .filter((e) => e.plan_network === "MTN")
@@ -146,18 +154,9 @@ const login = async (req, res) => {
   // generate account number
   if (user.accountNumbers.length < 1)
     await generateAcc({ userName, email: user.email });
-  // if (!user.reservedAccountNo3) {
-  //   console.log("no Vpay account number for this user\n generating.... ");
-  //   let firstName = user.userName.split(" ")[0];
-  //   let lastName = user.userName.split(" ")[1] || user.userName;
-  //   let phoneNumber = user.phoneNumber;
-  //   let email = user.email;
-  //   await generateVpayAcc({ email, firstName, lastName, phoneNumber });
-  // }
   const token = user.createJWT();
   const isReseller = user.userType === "reseller";
   const isApiUser = user.userType === "api user";
-
   const userTransaction = await Transaction.find({ trans_By: user._id })
     .limit(100)
     .sort("-createdAt");

@@ -4,14 +4,14 @@ const newReferral = async (payload) => {
   const newReferral = {
     userName: userName,
     email: email,
-    amountEarn: 0,
+    totalEarned: 0,
   };
   const referrer = await User.findOne({ userName: referredBy });
   // Adding the new refferal to the user document
   if (!referrer) return;
   await User.updateOne(
     { _id: referrer._id },
-    { $addToSet: { referrals: newReferral } }
+    { $push: { referrals: newReferral } }
   );
 };
 module.exports = newReferral;
