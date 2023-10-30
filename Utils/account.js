@@ -5,11 +5,11 @@ const generateAcc = async ({ userName, email }) => {
     process.env;
   try {
     const response = await axios.post(
-      ${MONNIFY_API_URL}/api/v1/auth/login,
+      `${MONNIFY_API_URL}/api/v1/auth/login`,
       {},
       {
         headers: {
-          Authorization: Basic ${MONNIFY_API_ENCODED},
+          Authorization: `Basic ${MONNIFY_API_ENCODED}`,
         },
       }
     );
@@ -17,7 +17,7 @@ const generateAcc = async ({ userName, email }) => {
       responseBody: { accessToken },
     } = response.data;
     const accountDetails = await axios.post(
-      ${MONNIFY_API_URL}/api/v2/bank-transfer/reserved-accounts,
+      `${MONNIFY_API_URL}/api/v2/bank-transfer/reserved-accounts`,
       {
         accountReference: email,
         accountName: userName,
@@ -29,7 +29,7 @@ const generateAcc = async ({ userName, email }) => {
       },
       {
         headers: {
-          Authorization: Bearer ${accessToken},
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -38,15 +38,15 @@ const generateAcc = async ({ userName, email }) => {
 
     let userToUpdate = await User.findOne({ email, userName });
 
-    // await User.updateOne(
-    //   { _id: userToUpdate._id },
-    //   {
-    //     $push: { accountNumbers: accountList },
-    //   }
-    // );
+    await User.updateOne(
+      { _id: userToUpdate._id },
+      {
+        $push: { accountNumbers: accountList },
+      }
+    );
     console.log(" account number generated for the new user");
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data || "an error occur");
   }
 };
 module.exports = generateAcc;

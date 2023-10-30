@@ -46,7 +46,7 @@ function BuyData() {
     buyData();
   };
   return (
-    <Container>
+    <Container className="">
       <h4 className="">purchase DATA</h4>
 
       <Wrapper>

@@ -8,7 +8,7 @@ function UserDetails() {
   const details = [
     {
       name: "Full name",
-      value: user.fullName,
+      value: user.fullName || user.userName,
     },
     {
       name: "username",
@@ -22,6 +22,10 @@ function UserDetails() {
     {
       name: "email",
       value: user.email,
+    },
+    {
+      name: "sponsor",
+      value: user.referredBy || "no sponsor",
     },
     {
       name: "API key",
@@ -51,7 +55,7 @@ function UserDetails() {
             </div>
           );
         })}
-        <div className="btn__container">
+        <div className="flex pt-2">
           <button
             onClick={() => {
               window.open(
@@ -60,7 +64,7 @@ function UserDetails() {
                 "_blank"
               );
             }}
-            className="btn"
+            className="btn btn-danger"
           >
             Check Developer's API
           </button>
