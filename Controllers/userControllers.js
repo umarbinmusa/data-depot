@@ -21,7 +21,7 @@ const { cableName } = require("../API_DATA/cableName");
 const { disco } = require("../API_DATA/disco");
 const { network } = require("../API_DATA/network");
 const { TRANSFER_RECEIPT, BONUS_RECEIPT } = require("./TransactionReceipt");
-const { MTN_CG, MTN_SME } = require("../API_DATA/newData");
+const Contact = require("../Models/contactModel");
 // const generateVpayAcc = require("../Utils/generateVpayAccount");
 const generateAcc = require("../Utils/account");
 
@@ -728,6 +728,87 @@ const validateUser = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+}; // Contacts controller
+
+const fetchContact = async (req, res) => {
+  const { userId } = req.user;
+  try {
+    const { _id } = await User.findById(userId);
+    const contactList = await Contact.find({ userId: _id }).sort("-createdAt");
+    res.status(200).json({ msg: "contact list fetched", contactList });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
+const addContact = async (req, res) => {
+  const { userId } = req.user;
+  const { contactName, contactNumber, contactNetwork } = req.body;
+  if (!contactName || !contactNumber || !contactNetwork)
+    return res.status(400).json({ msg: "all fields are required" });
+  if (contactName.length > 11)
+    return res
+      .status(400)
+      .json({ msg: "max length for contact name is 11 character " });
+  if (contactNumber.length !== 11)
+    return res.status(400).json({ msg: "Enter a valid number" });
+  try {
+    const { _id } = await User.findById(userId);
+    const totalContact = await Contact.countDocuments({ userId: _id });
+    if (totalContact >= 10)
+      return res
+        .status(400)
+        .json({ msg: "Max number of contact reached, please delete some " });
+    // creating the contact
+    const isContactExist = await Contact.findOne({
+      userId: _id,
+      contactNumber,
+    });
+    if (isContactExist)
+      return res.status(400).json({ msg: "This number is saved already" });
+    await Contact.create({ userId: _id, ...req.body, createdAt: Date.now() });
+
+    res.status(201).json({ msg: "Contact added" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
+const updateContact = async (req, res) => {
+  const { contactName, contactNumber, contactNetwork } = req.body;
+  const { userId } = req.user;
+  if (!contactName || !contactNumber || !contactNetwork)
+    return res.status(400).json({ msg: "all fields are required" });
+  if (contactName.length > 11)
+    return res
+      .status(400)
+      .json({ msg: "max length for contact name is 11 character " });
+  if (contactNumber.length !== 11)
+    return res.status(400).json({ msg: "Enter a valid number" });
+  try {
+    const { _id } = await User.findById(userId);
+    const contactToUpdate = await Contact.findById(req.params.contactId);
+    await Contact.updateOne(
+      {
+        userId: _id,
+        _id: contactToUpdate._id,
+      },
+      { $set: { ...req.body, createdAt: Date.now() } }
+    );
+    res.status(200).json({ msg: "Contact updated" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
+const deleteContact = async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.contactId);
+    res.status(200).json({ msg: "Contact deleted " });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "something went wrong" });
+  }
 };
 module.exports = {
   register,
@@ -743,4 +824,8 @@ module.exports = {
   transferFund,
   changePassword,
   validateUser,
+  fetchContact,
+  addContact,
+  updateContact,
+  deleteContact,
 };

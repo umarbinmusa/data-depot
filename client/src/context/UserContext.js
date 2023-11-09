@@ -32,6 +32,9 @@ const {
   FETCH_USER_SUCCESS,
   BUY_ELECTRICITY_SUCCESS,
   SELECTED_DATA_CHANGE,
+  DELETE_CONTACT_SUCCESS,
+  FETCH_CONTACT_SUCCESS,
+  ADD_CONTACT_SUCCESS,
 } = require("./actions");
 
 const AppContext = React.createContext();
@@ -137,6 +140,11 @@ export const AppProvider = ({ children }) => {
     showAlert: false,
     alertText: "",
     alertType: "",
+    // Save Contact
+    contactName: "",
+    contactNumber: "",
+    contactNetwork: "MTN",
+    contactList: [],
     // ELECTRICITY
     meterTypeList: ["prepaid", "postpaid"],
     electricityCompanyList: [
@@ -407,6 +415,8 @@ export const AppProvider = ({ children }) => {
         mobile_number: phoneNumber,
         plan: id,
       });
+      if (state.contactName) addContact({ contactId: "" });
+
       dispatch({
         type: BUY_DATA_SUCCESS,
         payload: { msg: data.msg, receipt: data.receipt },
@@ -432,6 +442,7 @@ export const AppProvider = ({ children }) => {
         mobile_number: phoneNumber,
         amount: amount,
       });
+      if (state.contactName) addContact({ contactId: "" });
       dispatch({
         type: BUY_AIRTIME_SUCCESS,
         payload: { receipt: data.receipt, msg: data.msg },
@@ -813,6 +824,55 @@ export const AppProvider = ({ children }) => {
   const clearFilter = () => {
     dispatch({ type: CLEAR_FILTER });
   };
+  const fetchContact = async () => {
+    dispatch({ type: START_LOADING });
+    try {
+      const msg = await authFetch.get("/auth/contact");
+      dispatch({ type: FETCH_CONTACT_SUCCESS, payload: msg.data.contactList });
+      // toast(msg.data.msg);
+    } catch (e) {
+      dispatch({ type: STOP_LOADING });
+      toast.error(e.response.data.msg);
+    }
+  };
+  const deleteContact = async ({ contactId }) => {
+    dispatch({ type: START_LOADING });
+    try {
+      const msg = await authFetch.delete(`/auth/contact/${contactId}`);
+      dispatch({ type: DELETE_CONTACT_SUCCESS });
+      toast(msg.data.msg);
+      fetchContact();
+    } catch (e) {
+      dispatch({ type: STOP_LOADING });
+      toast.error(e.response.data.msg);
+    }
+  };
+  const addContact = async ({ contactId }) => {
+    const { contactName, contactNumber, contactNetwork } = state;
+    dispatch({ type: START_LOADING });
+    try {
+      let msg = "";
+      if (contactId) {
+        msg = await authFetch.patch(`/auth/contact/${contactId}`, {
+          contactName,
+          contactNetwork,
+          contactNumber,
+        });
+      } else {
+        msg = await authFetch.post("/auth/contact", {
+          contactName,
+          contactNetwork,
+          contactNumber,
+        });
+      }
+      fetchContact();
+      dispatch({ type: ADD_CONTACT_SUCCESS });
+      toast(msg.data.msg);
+    } catch (e) {
+      dispatch({ type: STOP_LOADING });
+      toast.error(e.response.data.msg);
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -847,6 +907,9 @@ export const AppProvider = ({ children }) => {
         validateMeter,
         updatePrice,
         updateCostPrice,
+        addContact,
+        fetchContact,
+        deleteContact,
       }}
     >
       {children}

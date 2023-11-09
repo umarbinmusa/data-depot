@@ -1,17 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
 import { useGlobalContext } from "../context/UserContext";
-import { Container } from "../Styles/Styles";
 import EachTransaction from "../components/EachTransaction";
 import FormRowSelect from "../components/FormRowSelect";
 import FormInput from "../components/FormInput";
 import Pagination from "../components/Pagination";
+import { MdIncompleteCircle } from "react-icons/md";
+// import Stat from "../components/Stat";
 
 function Transactions() {
-  const [localSearch, setLocalSearch] = useState({
-    phoneNumber: "",
-    userAccount: "",
-  });
   const {
     transactions,
     transactionFilterOptions,
@@ -33,6 +29,11 @@ function Transactions() {
     selectedTransactionStatus,
     transactionStatusList,
   } = useGlobalContext();
+  const [localSearch, setLocalSearch] = useState({
+    phoneNumber: phoneNumber || "",
+    userAccount: userAccount || "",
+  });
+  const [showStat, setShowStat] = useState(false);
   const handleInputChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -70,109 +71,128 @@ function Transactions() {
     clearFilter();
   };
   return (
-    <Container>
-      <h4 className="pt-20 mb-0">Transactions</h4>
-      <Wrapper>
-        <section className="head">
-          <div className="filter">
-            <div className="flex">
-              <FormRowSelect
-                name="selectedTransactionFilter"
-                value={selectedTransactionFilter}
-                handleChange={handleInputChange}
-                labelText="Transaction type"
-                list={transactionFilterOptions}
-              />{" "}
-              <FormRowSelect
-                name="selectedTransactionStatus"
-                value={selectedTransactionStatus}
-                handleChange={handleInputChange}
-                labelText="Transaction status"
-                list={transactionStatusList}
-              />{" "}
+    <div className="sm:ml-[5rem] text-center md:ml-[4rem] bg-white p-4 rounded">
+      <p className="underline title">Transactions</p>
+      <div className=" ">
+        <section className="card m-auto  self-start   ">
+          <div className="filter md:flex md:flex-col md:max-w-[700px] m-auto">
+            <div className="md:flex ">
+              <div className="flex space-x-2">
+                <FormRowSelect
+                  name="selectedTransactionFilter"
+                  value={selectedTransactionFilter}
+                  handleChange={handleInputChange}
+                  labelText="Transaction type"
+                  list={transactionFilterOptions}
+                />{" "}
+                <FormRowSelect
+                  name="selectedTransactionStatus"
+                  value={selectedTransactionStatus}
+                  handleChange={handleInputChange}
+                  labelText="Transaction status"
+                  list={transactionStatusList}
+                />{" "}
+              </div>
+              {(isAdmin || isAgent) && (
+                <div className="flex">
+                  <FormInput
+                    handleChange={handleInputChange}
+                    labelText="Transaction from"
+                    name="transactionFrom"
+                    value={transactionFrom}
+                    placeholder="from"
+                    type="date"
+                    min={transactionFrom}
+                    max={new Date()}
+                  />
+                  <FormInput
+                    handleChange={handleInputChange}
+                    labelText="Transaction to"
+                    name="transactionTo"
+                    value={transactionTo || new Date()}
+                    placeholder="to"
+                    type="date"
+                    min={transactionFrom}
+                    max={new Date()}
+                  />
+                </div>
+              )}
             </div>
-            <div className="flex">
-              <FormInput
-                handleChange={handleInputChange}
-                labelText="Transaction from"
-                name="transactionFrom"
-                value={transactionFrom}
-                placeholder="from"
-                type="date"
-                min={transactionFrom}
-                max={new Date()}
-              />
-              <FormInput
-                handleChange={handleInputChange}
-                labelText="Transaction to"
-                name="transactionTo"
-                value={transactionTo || new Date()}
-                placeholder="to"
-                type="date"
-                min={transactionFrom}
-                max={new Date()}
-              />
-            </div>
-            {(isAdmin || isAgent) && (
+
+            <div className="md:flex">
+              {(isAdmin || isAgent) && (
+                <FormInput
+                  handleChange={optimizedDebounce}
+                  labelText="userAccount"
+                  name="userAccount"
+                  value={localSearch.userAccount}
+                  placeholder="userName"
+                />
+              )}
               <FormInput
                 handleChange={optimizedDebounce}
-                labelText="userAccount"
-                name="userAccount"
-                value={localSearch.userAccount}
-                placeholder="userName"
+                labelText="phone Number"
+                name="phoneNumber"
+                value={localSearch.phoneNumber}
+                placeholder="phone number"
               />
-            )}
-            <FormInput
-              handleChange={optimizedDebounce}
-              labelText="phone Number"
-              name="phoneNumber"
-              value={localSearch.phoneNumber}
-              placeholder="phone number"
-            />
+            </div>
+            <button
+              onClick={clearAllFilter}
+              className="btn btn-block btn-danger"
+            >
+              Clear filters
+            </button>
+            {/* {showStat && (
+              <div>
+                <Stat
+                  totalSales={totalSales}
+                  totalProfit={totalProfit}
+                  close={() => setShowStat(false)}
+                />
+              </div>
+            )} */}
           </div>
-          <button onClick={clearAllFilter} className="btn btn-block btn-danger">
-            Clear filters
-          </button>
-          <h4 className="font-light">
+        </section>
+        <section className="">
+          <div className="m-auto flex justify-center pt-4 gap-4 items-center max-w-4xl">
+            {isAdmin && (
+              <div className="flex justify-evenly ">
+                <p className="font-bold ">
+                  Total profit : ₦{totalProfit.toFixed(2) || 0}
+                </p>
+                {/* <button className="btn p-0 " onClick={() => setShowStat(true)}>
+                  <MdIncompleteCircle className="rotate" />
+                </button> */}
+              </div>
+            )}
+            <button className="btn ml-auto" onClick={fetchTransaction}>
+              refresh
+            </button>
+          </div>
+
+          {/* {isAgent && ( */}
+          <h5 className="font-bold text-center m-0">
             Total sales today:{" "}
             {totalSales >= 1000
               ? `${(totalSales / 1000).toFixed(2)}TB`
-              : `${totalSales}GB`}
-          </h4>
-          {isAdmin && (
-            <h4 className="font-light">Total profit : ₦{totalProfit || 0}</h4>
+              : `${totalSales.toFixed(2)}GB`}
+          </h5>
+          {/* )} */}
+          <p className="text-center text-sm p-0 m-0 text-green-500  font-bold">
+            Click on any of the transactions to see full details
+          </p>
+          {numOfPages > 1 && <Pagination />}
+          {filteringTransactions ? (
+            <div className="loading"></div>
+          ) : (
+            <EachTransaction transactions={transactions} />
           )}
+          {numOfPages > 1 && <Pagination />}
         </section>
-        {numOfPages > 1 && <Pagination />}
-        {filteringTransactions ? (
-          <div className="loading"></div>
-        ) : (
-          <EachTransaction transactions={transactions} />
-        )}
-        {numOfPages > 1 && <Pagination />}{" "}
-      </Wrapper>
-    </Container>
+      </div>{" "}
+    </div>
   );
 }
 
 export default Transactions;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 3rem;
-  padding-top: 1rem;
-  .head {
-    width: 85%;
-    margin-bottom: 1rem;
-  }
-  @media (min-width: 600px) {
-    .filter {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-  }
-`;

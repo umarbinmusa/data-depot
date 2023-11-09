@@ -25,6 +25,9 @@ const {
   FETCH_USER_SUCCESS,
   BUY_ELECTRICITY_SUCCESS,
   SELECTED_DATA_CHANGE,
+  ADD_CONTACT_SUCCESS,
+  FETCH_CONTACT_SUCCESS,
+  DELETE_CONTACT_SUCCESS,
 } = require("./actions");
 
 const reducer = (state, action) => {
@@ -234,6 +237,37 @@ const reducer = (state, action) => {
       amount: "",
       couponCode: action.payload,
       isValidated: false,
+    };
+  }
+  if (action.type === ADD_CONTACT_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      contactName: "",
+      contactNumber: "",
+      contactNetwork: "MTN",
+      selectedNetwork: "MTN",
+    };
+  }
+  if (action.type === FETCH_CONTACT_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      contactList: action.payload,
+      contactName: "",
+      contactNumber: "",
+      contactNetwork: "MTN",
+      selectedNetwork: "MTN",
+    };
+  }
+  if (action.type === DELETE_CONTACT_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      contactName: "",
+      contactNumber: "",
+      contactNetwork: "MTN",
+      selectedNetwork: "MTN",
     };
   }
   if (action.type === SEND_MAIL_SUCCESS) {

@@ -11,6 +11,7 @@ import withdraw from "../images/withdraw.png";
 import { useGlobalContext } from "../context/UserContext";
 import WarningAlert from "../components/WarningAlert";
 import { FaWhatsapp } from "react-icons/fa";
+import contacts from "../images/contacts.png";
 
 const DashBoard = () => {
   const { user } = useGlobalContext();
@@ -41,6 +42,7 @@ const DashBoard = () => {
     { name: "Tv subscription", image: cable, link: "/profile" },
     { name: "Utility", image: utility, link: "/profile/electricity" },
     { name: "History", image: historyImage, link: "/profile/transactions" },
+    { name: "Contacts", image: contacts, link: "/profile/contacts" },
     { name: "withdraw", image: withdraw, link: "/profile" },
   ];
   const copyAccNo = async (number) => {
@@ -59,7 +61,7 @@ const DashBoard = () => {
   };
 
   return (
-    <div className="mt-[3rem] md:ml-[6rem] bg-white p-4">
+    <div className=" md:ml-[6rem] bg-white p-4">
       {showAlert && <WarningAlert close={() => setShowAlert(false)} />}
       <div className=" mx-auto bg-[#25d366] max-w-[400px] rounded-lg mt-1 ">
         <p className="text-center text-small leading-none text-white">
@@ -77,7 +79,7 @@ const DashBoard = () => {
         Welcome back, {user.userName && user.userName.substring(0, 10)}
       </p>
 
-      <div className="flex justify-between items-center px-4 md:pl-20">
+      <div className="flex justify-between items-center px-4 py-2 md:pl-20">
         <div className="text-xl font-bold md:font-extrabold  ">
           ₦{user.balance.toFixed(2)}
         </div>
@@ -85,22 +87,32 @@ const DashBoard = () => {
           fund your wallet
         </a>
       </div>
-      <section className="flex flex-wrap m-auto justify-center items-stretch space-x-4 space-y-4 md:cursor-pointer ">
+      <section className="flex flex-wrap m-auto justify-center items-stretch gap-4 cursor-pointer ">
         {navigation.map((e, index) => (
           <div
-            className="grid items-center place-content-center  border-2  border-[#162147] w-[30%] max-w-[150px] bg-white rounded-md md:rounded-lg"
+            className=" border-2 border-[var(--primary-500)] w-[40%] max-w-[200px] bg-white rounded-xl "
             key={index}
             onClick={() => navigate(`${e.link}`)}
           >
-            <img className="img" src={e.image} alt="airtime" width={"200px"} />
-            <p className="title service__name">{e.name}</p>
+            <div className="max-w-[5rem] m-auto">
+              <img
+                className="img"
+                src={e.image}
+                alt="airtime"
+                width={"200px"}
+              />
+            </div>
+            <p className="font-bold text-center capitalize">{e.name}</p>
           </div>
         ))}
       </section>
       <h3 className="text-center title underline mt-2">Payment accounts</h3>
       <div className="md:flex md:justify-between md:items-center md:space-x-4 md:p-4">
         {/* Payment accounts */}
-        <div className="card md:w-[50%] self-stretch " id="fundWallet">
+        <div
+          className="card m-auto md:m-0 md:w-[50%] self-stretch "
+          id="fundWallet"
+        >
           <div className="w-100 bg-white rounded-lg text-center">
             <p className="text-lg text-[#25d366] font-bold ">
               1.08% charges is applied
@@ -129,20 +141,20 @@ const DashBoard = () => {
             </p>
             <button
               onClick={pay_with_card}
-              className="btn btn-block special__btn "
+              className="btn btn-block btn-hipster "
             >
               Pay with ATM card instead (1% charges)
             </button>
           </div>
         </div>
         {/* refer link section */}
-        <div className="card  md:w-[50%] self-stretch ">
+        <div className="card m-auto md:m-0  md:w-[50%] self-stretch ">
           <h1 className="sub__title">refer a friend</h1>
           <div className="note">
             Refer people to SPPDataDepot and earn ₦500 immediately the person
             upgrade his/her account to Reseller.
           </div>
-          <button className="btn special__btn" onClick={copyReferralLink}>
+          <button className="btn btn-hipster" onClick={copyReferralLink}>
             Copy referral link
           </button>
           <div className="">

@@ -2,7 +2,7 @@ import React from "react";
 
 const MyBonus = () => {
   return (
-    <div className="mt-[3rem] md:ml-[6rem] bg-white p-4">
+    <div className=" md:ml-[6rem] bg-white p-4  ">
       <h3 className="text-center title  underline">My Bonus</h3>
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem minus
       cumque et ipsum modi repudiandae aliquam eligendi maiores ducimus iusto,

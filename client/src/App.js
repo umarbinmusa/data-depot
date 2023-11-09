@@ -32,6 +32,7 @@ import WhatsAppIcon from "./components/WhatsAppIcon";
 import BuyElectricity from "./pages/BuyElectricity";
 import UpdatePrice from "./pages/UpdatePrice";
 import MyBonus from "./pages/MyBonus";
+import Contacts from "./pages/Contacts";
 
 export default function App() {
   const { token, checkLoggedIn, isLoading } = useGlobalContext();
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="buyData" element={<BuyData />} />
           <Route path="buyAirtime" element={<BuyAirtime />} />
           <Route path="transactions" element={<Transactions />} />
+          <Route path="contacts" element={<Contacts />} />
           <Route path="bonus" element={<MyBonus />} />
           <Route path="transfer" element={<Transfer />} />
           <Route path="user" element={<UserDetails />} />

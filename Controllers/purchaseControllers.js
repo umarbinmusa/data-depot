@@ -14,6 +14,8 @@ const BUYAIRTIME = require("./APICALLS/Airtime/buyAirtime");
 const BUYDATA = require("./APICALLS/Data/Data");
 const { default: axios } = require("axios");
 const { disco } = require("../API_DATA/disco");
+const checkContact = require("../Utils/checkContact");
+
 const buyAirtime = async (req, res) => {
   const {
     user: { userId, userType },
@@ -61,11 +63,17 @@ const buyAirtime = async (req, res) => {
     };
     const receipt = await generateReceipt(payload);
     res.status(200).json({ msg: msg, receipt });
+    checkContact({
+      contactNumber: mobile_number,
+      contactNetwork: NETWORK,
+      userId: user._id,
+    });
   } else {
     await User.updateOne(
       { _id: userId },
       { $inc: { balance: +amountToCharge } }
     );
+
     return res.status(500).json({
       msg: msg || "Transaction failed",
     });
@@ -154,6 +162,11 @@ const buyData = async (req, res) => {
   }
   if (isSuccess) {
     res.status(200).json({ msg, receipt });
+    checkContact({
+      contactNumber: mobile_number,
+      contactNetwork: NETWORK,
+      userId: user._id,
+    });
   } else {
     await User.updateOne(
       { _id: userId },

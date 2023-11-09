@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SideMenuBtn from "./SideMenuBtn";
 import { useGlobalContext } from "../context/UserContext";
+import avatar from "../images/avatar.svg";
 
 function SideMenu() {
   const {
@@ -9,17 +10,20 @@ function SideMenu() {
     user: { userName, balance },
   } = useGlobalContext();
   return (
-    <Container isSideBarOpen={isSideBarOpen}>
+    <Container isSideBarOpen={isSideBarOpen} className="z-50 mt-[40px] pb-16">
       <Wrapper>
-        <Header className="mb-4 border-b-2 pb-4">
-          <Avatar>
-            <img src="./assets/avatar.svg" alt="" className="img" />
-          </Avatar>
-          <Balance>
-            <span>{userName && userName}</span>
-            <span>balance:₦ {balance && balance.toFixed(2)}</span>
-          </Balance>
-        </Header>
+        <div className="mb-2 flex space-x-4 items-center">
+          <div className="ring-4 rounded-full max-w-[50px]">
+            <img src={avatar} alt="avatar" className="img" />
+          </div>
+          <div className="">
+            <span className="capitalize font-bold">{userName && userName}</span>
+            <p className="capitalize">
+              balance:₦ {balance && balance.toFixed(2)}
+            </p>
+          </div>
+        </div>
+        <hr />
         <SideMenuBtn />
       </Wrapper>
     </Container>

@@ -13,6 +13,10 @@ const {
   transferFund,
   changePassword,
   validateUser,
+  addContact,
+  fetchContact,
+  updateContact,
+  deleteContact,
 } = require("../Controllers/userControllers");
 const auth = require("../Middleware/auth");
 const router = express.Router();
@@ -21,6 +25,11 @@ router.get("/", auth, userData);
 router.post("/login", login);
 router.post("/register", register);
 router.route("/:id").patch(auth, updateUser).delete(auth, deleteUser);
+router
+  .post("/contact", auth, addContact)
+  .get("/contact", auth, fetchContact)
+  .patch("/contact/:contactId", auth, updateContact)
+  .delete("/contact/:contactId", auth, deleteContact);
 router.post("/requestPasswordReset", requestPasswordReset);
 router.post("/resetpassword", resetPassword);
 router.post("/requestPinReset", auth, requestPinReset);
