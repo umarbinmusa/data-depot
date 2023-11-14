@@ -9,6 +9,7 @@ const voucher_codes = require("voucher-code-generator");
 const sendEmail = require("../Utils/sendMail");
 const { REFUND_RECEIPT } = require("./TransactionReceipt");
 const dataModel = require("../Models/dataModel");
+const { reverseReferralBonus } = require("../Utils/referralBonus");
 const adminDetails = async (req, res) => {
   if (req.user.userId !== process.env.ADMIN_ID)
     return res.status(401).json({
@@ -145,27 +146,13 @@ const refund = async (req, res) => {
     }
 
     // remove the refund bonus from sponsor if it is a data transaction
-    // if (referredBy && trans_Type === "data") {
-    //   const { balance: sponsorBalance, _id: sponsorId } = await User.findOne({
-    //     userName: referredBy,
-    //   });
-    //   const bonus = trans_amount <= 1000 ? trans_amount * 0.01 : 8;
-
-    //   const response = await REFUND_RECEIPT({
-    //     ...transactionObject._doc,
-    //     sponsorBalance,
-    //     isOwner: false,
-    //     sponsorId,
-    //     userName,
-    //     bonus,
-    //   });
-    //   if (response) {
-    //     await User.updateOne(
-    //       { userName: referredBy },
-    //       { $inc: { balance: -bonus } }
-    //     );
-    //   }
-    // }
+    if (referredBy && trans_Type === "data") {
+      reverseReferralBonus({
+        bonusAmount: transactionObject.trans_volume_ratio,
+        sponsorUserName: referredBy,
+        userName,
+      });
+    }
     res.status(200).json({
       msg: `Refund of ₦ ${trans_amount} for ${userName} was successful`,
     });

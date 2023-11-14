@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import notFound from "../images/not-found.svg";
 const NotFound = () => {
   return (
     <Container>
       <div>
-        <img src="./assets/not-found.svg" alt="not found" />
+        <img src={notFound} alt="not found" />
         <h3>Ohh! page not found</h3>
         <p>We can't seem to find the page you're looking for</p>
-        <Link to="/">back home</Link>
+        <Link to="/profile">back home</Link>
       </div>
     </Container>
   );

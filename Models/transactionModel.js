@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const transactionsSchema = new mongoose.Schema({
   trans_Id: { type: String, required: true, unique: true },
   trans_By: { type: String, required: true },
-  trans_UserName: { type: String },
+  trans_UserName: { type: String, lowercase: true },
   trans_Type: { type: String, required: true },
   trans_Network: { type: String, required: true },
   phone_number: { type: String },

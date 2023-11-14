@@ -8,6 +8,7 @@ import cable from "../images/cable.jpg";
 import utility from "../images/utility.jpg";
 import historyImage from "../images/history.png";
 import withdraw from "../images/withdraw.png";
+import earnings from "../images/earnings.svg";
 import { useGlobalContext } from "../context/UserContext";
 import WarningAlert from "../components/WarningAlert";
 import { FaWhatsapp } from "react-icons/fa";
@@ -43,6 +44,7 @@ const DashBoard = () => {
     { name: "Utility", image: utility, link: "/profile/electricity" },
     { name: "History", image: historyImage, link: "/profile/transactions" },
     { name: "Contacts", image: contacts, link: "/profile/contacts" },
+    { name: "my earnings", image: earnings, link: "/profile/earnings" },
     { name: "withdraw", image: withdraw, link: "/profile" },
   ];
   const copyAccNo = async (number) => {
@@ -94,12 +96,12 @@ const DashBoard = () => {
             key={index}
             onClick={() => navigate(`${e.link}`)}
           >
-            <div className="max-w-[5rem] m-auto">
+            <div className="max-w-[4rem] md:max-w-[5rem] m-auto">
               <img
                 className="img"
                 src={e.image}
-                alt="airtime"
-                width={"200px"}
+                alt={e.name}
+                // width={"200px"}
               />
             </div>
             <p className="font-bold text-center capitalize">{e.name}</p>
@@ -110,7 +112,7 @@ const DashBoard = () => {
       <div className="md:flex md:justify-between md:items-center md:space-x-4 md:p-4">
         {/* Payment accounts */}
         <div
-          className="card m-auto md:m-0 md:w-[50%] self-stretch "
+          className="card bg-[var(--primary-500)] text-white m-auto md:m-0 md:w-[50%] self-stretch "
           id="fundWallet"
         >
           <div className="w-100 bg-white rounded-lg text-center">
@@ -148,7 +150,7 @@ const DashBoard = () => {
           </div>
         </div>
         {/* refer link section */}
-        <div className="card m-auto md:m-0  md:w-[50%] self-stretch ">
+        <div className="card bg-[var(--red-light)] text-[var(--red-dark)] m-auto md:m-0  md:w-[50%] self-stretch ">
           <h1 className="sub__title">refer a friend</h1>
           <div className="note">
             Refer people to SPPDataDepot and earn ₦500 immediately the person

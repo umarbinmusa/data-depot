@@ -14,12 +14,12 @@ const {
 } = require("./API_DATA/newData");
 require("dotenv").config();
 const costPrices = [
-  // { network: "MTN", costPrice: 221 },
-  // { network: "MTN-CG", costPrice: 245 },
-  // { network: "GLO", costPrice: 230 },
-  // { network: "AIRTEL", costPrice: 250 },
-  // { network: "9MOBILE", costPrice: 340 },
-  // { network: "MTN-COUPON", costPrice: 205 },
+  { network: "MTN", costPrice: 221 },
+  { network: "MTN-CG", costPrice: 245 },
+  { network: "GLO", costPrice: 230 },
+  { network: "AIRTEL", costPrice: 250 },
+  { network: "9MOBILE", costPrice: 340 },
+  { network: "MTN-COUPON", costPrice: 205 },
 ];
 const populate = async () => {
   try {
@@ -28,16 +28,35 @@ const populate = async () => {
     // await costPriceModel.deleteMany({});
     // await costPriceModel.create(costPrices);
     // await dataModel.create(MTN_SME);
+    await dataModel.updateMany(
+      { plan: "500.0MB" },
+      { $set: { volumeRatio: 0.5 } }
+    );
+    // await dataModel.updateMany({ plan: "1GB" }, { $set: { volumeRatio: 1 } });
+    // await dataModel.updateMany({ plan: "2GB" }, { $set: { volumeRatio: 2 } });
+    // await dataModel.updateMany({ plan: "3GB" }, { $set: { volumeRatio: 3 } });
+    // await dataModel.updateMany({ plan: "5GB" }, { $set: { volumeRatio: 5 } });
+    // await dataModel.updateMany({ plan: "10GB" }, { $set: { volumeRatio: 10 } });
+    // await dataModel.updateMany({ plan: "15GB" }, { $set: { volumeRatio: 15 } });
+    // await dataModel.updateMany({ plan: "20GB" }, { $set: { volumeRatio: 20 } });
     // await dataModel.updateMany(
-    //   { plan: "500MB" },
-    //   { $set: { volumeRatio: 0.5 } }
+    //   { plan: "1.5GB" },
+    //   { $set: { volumeRatio: 1.5 } }
     // );
 
+    // await dataModel.updateMany(
+    //   { plan: "100MB" },
+    //   { $set: { volumeRatio: 0.1 } }
+    // );
+    // await dataModel.updateMany(
+    //   { plan: "300MB" },
+    //   { $set: { volumeRatio: 0.3 } }
+    // );
     // await dataModel.deleteMany({});
-    await dataModel.create(MTN_SME);
-    await dataModel.create(AIRTEL);
-    await dataModel.create(GLO);
-    await dataModel.create(NMOBILE);
+    // await dataModel.create(MTN_SME);
+    // await dataModel.create(AIRTEL);
+    // await dataModel.create(GLO);
+    // await dataModel.create(NMOBILE);
     // await cabletvModel.create(GOTV);
     // await cabletvModel.create(DSTV);
     // await cabletvModel.create(STARTIME);

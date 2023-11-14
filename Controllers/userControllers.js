@@ -24,6 +24,7 @@ const { TRANSFER_RECEIPT, BONUS_RECEIPT } = require("./TransactionReceipt");
 const Contact = require("../Models/contactModel");
 // const generateVpayAcc = require("../Utils/generateVpayAccount");
 const generateAcc = require("../Utils/account");
+const { addReferral } = require("../Utils/referralBonus");
 
 const register = async (req, res) => {
   let {
@@ -131,7 +132,11 @@ const register = async (req, res) => {
         NETWORK: network,
       },
     });
-    if (referredBy) newReferral(req.body);
+    // if (referredBy) newReferral(req.body);
+    if (referredBy) {
+      console.log("referred by someone");
+      addReferral({ userName, sponsorId: referredBy });
+    }
 
     return;
   } catch (error) {

@@ -15,6 +15,7 @@ const BUYDATA = require("./APICALLS/Data/Data");
 const { default: axios } = require("axios");
 const { disco } = require("../API_DATA/disco");
 const checkContact = require("../Utils/checkContact");
+const { referralBonus } = require("../Utils/referralBonus");
 
 const buyAirtime = async (req, res) => {
   const {
@@ -137,14 +138,6 @@ const buyData = async (req, res) => {
   if (status) {
     console.log({ ...data });
     receipt = await generateReceipt({
-      // ...data,
-      // amountToCharge,
-      // userId,
-      // mobile_number,
-      // balance,
-      // userName: user.userName,
-      // type: "data",
-      // costPrice,
       transactionId: uuid(),
       planNetwork: NETWORK,
       planName: `${plan_type} ${dataVolume}`,
@@ -167,6 +160,14 @@ const buyData = async (req, res) => {
       contactNetwork: NETWORK,
       userId: user._id,
     });
+    if (user.referredBy) {
+      console.log("he was referred by someone");
+      referralBonus({
+        sponsorUserName: user.referredBy,
+        userName: user.userName,
+        bonusAmount: volumeRatio,
+      });
+    }
   } else {
     await User.updateOne(
       { _id: userId },

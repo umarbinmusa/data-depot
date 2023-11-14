@@ -416,5 +416,5 @@ svg {
   text-decoration-color: var(--red-dark);
 }
 .card {
-  @apply w-11/12 max-w-2xl border rounded-md p-4 mb-2 text-center shadow-md md:m-auto;
+  @apply w-[95%] max-w-2xl rounded-md p-4 mb-2 text-center shadow-lg md:m-auto md:hover:shadow-2xl hover:cursor-pointer;
 }

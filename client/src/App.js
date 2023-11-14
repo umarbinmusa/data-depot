@@ -31,7 +31,7 @@ import Loading from "./components/Loading";
 import WhatsAppIcon from "./components/WhatsAppIcon";
 import BuyElectricity from "./pages/BuyElectricity";
 import UpdatePrice from "./pages/UpdatePrice";
-import MyBonus from "./pages/MyBonus";
+import MyEarnings from "./pages/MyEarnings";
 import Contacts from "./pages/Contacts";
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
 
   return (
     <>
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
       <WhatsAppIcon />
       <Routes>
         {/* <Route exact path="/" element={<Landing />} /> */}
@@ -60,7 +60,7 @@ export default function App() {
           <Route path="buyAirtime" element={<BuyAirtime />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="contacts" element={<Contacts />} />
-          <Route path="bonus" element={<MyBonus />} />
+          <Route path="earnings" element={<MyEarnings />} />
           <Route path="transfer" element={<Transfer />} />
           <Route path="user" element={<UserDetails />} />
           <Route path="changePassword" element={<Settings />} />

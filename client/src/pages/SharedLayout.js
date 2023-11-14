@@ -6,7 +6,8 @@ import { Outlet } from "react-router-dom";
 function Profile() {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   return (
-    <div className="bg-[hsl(0,_19%,_89%)] min-h-[calc(100vh_-_50px)] m-auto">
+    // <div className="bg-[hsl(0,_19%,_89%)] min-h-[calc(100vh_-_50px)] m-auto">
+    <div className="bg-white min-h-[calc(100vh_-_50px)] m-auto">
       <ProfileHeader isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <div className="min-h-full flex self-stretch">
         <SideMenu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />

@@ -17,6 +17,7 @@ const Receipt = async (payload) => {
     increased,
     apiResponse,
     apiResponseId,
+    wavedAmount,
   } = payload;
   let totalCost = costPrice * volumeRatio;
   const profit = parseInt(amountToCharge - totalCost);
@@ -29,7 +30,7 @@ const Receipt = async (payload) => {
     trans_Network: `${planNetwork} ${planName} `,
     phone_number: phoneNumber,
     trans_amount: amountToCharge,
-    trans_profit: profit || 0,
+    trans_profit: wavedAmount || profit || 0,
     trans_volume_ratio: volumeRatio && volumeRatio,
     balance_Before: balance,
     balance_After: increased

@@ -45,8 +45,8 @@ export const sideBarButton = [
     icon: <BiReceipt />,
   },
   {
-    name: "bonus",
-    url: "/profile/bonus",
+    name: "Earnings",
+    url: "/profile/earnings",
     icon: <BiReceipt />,
   },
 

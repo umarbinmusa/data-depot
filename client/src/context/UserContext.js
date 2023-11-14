@@ -184,6 +184,40 @@ export const AppProvider = ({ children }) => {
     ],
     selectedTransactionStatus: "all",
     transactionFrom: "",
+    // earnings
+    earningBalance: "25820",
+    totalReferred: "25",
+    totalEarned: "50000",
+    referralList: [
+      {
+        userName: "Oniboy",
+        amountEarned: "723",
+        currentBalance: "50",
+        lastSeen: "Today 12:05pm",
+        joinedOn: "25th Aug 2023",
+      },
+      {
+        userName: "Onisabi Abdullahi",
+        amountEarned: "100",
+        currentBalance: "0",
+        lastSeen: "Today 2:05pm",
+        joinedOn: "25th Jan 2023",
+      },
+      {
+        userName: "Oniboy2",
+        amountEarned: "73",
+        currentBalance: "500",
+        lastSeen: "Today 2:05pm",
+        joinedOn: "25th Sep 2023",
+      },
+      {
+        userName: "Oniboy2",
+        amountEarned: "0",
+        currentBalance: "0",
+        lastSeen: "Today 2:05pm",
+        joinedOn: "25th Jan 2023",
+      },
+    ],
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
