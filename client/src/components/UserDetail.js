@@ -8,25 +8,32 @@ const UserDetails = ({
   _id,
   balance,
   createdAt,
-
   phoneNumber,
   userType,
   lastLogin,
   email,
   handleUserTransaction,
-  handleSendEmail,
-  handleUpgradeUser,
+  // handleSendEmail,
+  // handleUpgradeUser,
   accountNumbers,
+  referredBy,
+  role,
+  earningBalance,
 }) => {
   return (
-    <Wrapper>
-      <div className="card" key={_id}>
-        <h3 className="title">{userName}</h3>
-        <div className="info">
+    <div className=" bg-black/50 flex m-auto h-full fixed left-0 right-0 top-0 bottom-0 z-10">
+      <div
+        className="m-auto bg-white p-4 rounded-md w-[80%] max-w-[400px] text-left"
+        key={_id}
+      >
+        <h4 className="underline text-center">{userName}</h4>
+        <div className="font-semibold capitalize">
           {/* <p>Id: {_id}</p> */}
           <p>Balance: #{balance.toFixed(2)}</p>
+          <p>Earning Balance:{earningBalance}</p>
+          <p>Referred by: {referredBy}</p>
+          <p>Account type: {role}</p>
           <p>phone number: {phoneNumber}</p>
-          <p>Account type: {userType}</p>
           <p>email: {email}</p>
           <p>
             last loggedIn:{" "}
@@ -34,15 +41,16 @@ const UserDetails = ({
               "unknown"}
           </p>
           <p>Joined on: {moment(createdAt).format("LLL")}</p>
+
           {accountNumbers.map((e) => {
             return (
-              <p key={e.accountNumber}>
-                {e.bankName}:{e.accountNumber}
+              <p key={e.bankName}>
+                {e.bankName}: {e.accountNumber}
               </p>
             );
           })}
         </div>
-        <div className="btn-container">
+        <div className="flex flex-wrap justify-center">
           {/* <button
             className="btn m-1 btn-hipster"
             onClick={() => handleSendEmail(email)}
@@ -63,14 +71,14 @@ const UserDetails = ({
             }
           >
             Upgrade user
-          </button> */}
-          {/* <button className="btn m-1 btn-danger">Delete User</button> */}
+          </button>
+          <button className="btn m-1 btn-danger">Delete User</button> */}
           <button onClick={close} className="btn m-1 btn-danger">
             close
           </button>
         </div>
       </div>
-    </Wrapper>
+    </div>
   );
 };
 

@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Pagination from "../components/Pagination";
 import avatar from "../images/avatar.svg";
 import { useGlobalContext } from "../context/UserContext";
 
 const MyEarnings = () => {
-  const { earningBalance, totalReferred, totalEarned, referralList } =
-    useGlobalContext();
+  const {
+    earningBalance,
+    totalReferred,
+    totalEarned,
+    referralList,
+    fetchReferralList,
+    withdrawEarnings,
+    isLoading,
+  } = useGlobalContext();
+  useEffect(() => {
+    fetchReferralList();
+  }, []);
   return (
     <div className=" md:ml-[6rem] px-4  ">
       <h3 className="text-center title  underline">My Earnings</h3>
@@ -14,7 +24,13 @@ const MyEarnings = () => {
           <p className="text-left font-extrabold text-3xl">
             ₦ {earningBalance}
           </p>
-          <button className=" ml-auto btn btn-danger">withdraw</button>
+          <button
+            className=" ml-auto btn btn-danger"
+            onClick={withdrawEarnings}
+            disabled={isLoading}
+          >
+            withdraw
+          </button>
         </div>
         <p className=" capitalize text-sm font-light text-left">
           Current balance
@@ -54,28 +70,28 @@ const MyEarnings = () => {
                     e.amountEarned < 1
                       ? "bg-red-100 text-red-700"
                       : "bg-green-100 text-green-700"
-                  }  p-1 px-3 font-extrabold rounded top-0 left-0`}
+                  }  p-1 px-3 font-extrabold rounded right-0 top-0`}
                 >
                   Earned: ₦ {e.amountEarned}
                 </div>
-                <div className="avatar flex gap-4 items-center mt-5">
+                <div className="avatar flex gap-4 items-center ">
                   <div className="w-12">
                     <img src={avatar} alt="" className="img" />
                   </div>
-                  <p className="font-extrabold">{e.userName}</p>
-                  <p
+                  <p className="font-extrabold capitalize">{e.userName}</p>
+                  {/* <p
                     className={`ml-auto font-bold ${
                       e.currentBalance < 1 ? " text-red-700" : " text-green-500"
                     }`}
                   >
                     {" "}
                     Bal: ₦{e.currentBalance}
-                  </p>
+                  </p> */}
                 </div>
-                <div className="flex justify-between mt-2">
+                {/* <div className="flex justify-between mt-2">
                   <p className="text-sm font-light">Joined: {e.joinedOn}</p>
                   <p className="text-sm font-light">Last seen: {e.lastSeen}</p>
-                </div>
+                </div> */}
               </div>
             );
           })

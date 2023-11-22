@@ -17,6 +17,8 @@ const {
   fetchContact,
   updateContact,
   deleteContact,
+  fetchReferral,
+  withdrawEarning,
 } = require("../Controllers/userControllers");
 const auth = require("../Middleware/auth");
 const router = express.Router();
@@ -30,6 +32,8 @@ router
   .get("/contact", auth, fetchContact)
   .patch("/contact/:contactId", auth, updateContact)
   .delete("/contact/:contactId", auth, deleteContact);
+router.get("/referral", auth, fetchReferral);
+router.post("/withdrawEarning", auth, withdrawEarning);
 router.post("/requestPasswordReset", requestPasswordReset);
 router.post("/resetpassword", resetPassword);
 router.post("/requestPinReset", auth, requestPinReset);

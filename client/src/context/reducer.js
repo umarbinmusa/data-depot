@@ -28,6 +28,7 @@ const {
   ADD_CONTACT_SUCCESS,
   FETCH_CONTACT_SUCCESS,
   DELETE_CONTACT_SUCCESS,
+  FETCH_REFERRAL_LIST_SUCCESS,
 } = require("./actions");
 
 const reducer = (state, action) => {
@@ -268,6 +269,13 @@ const reducer = (state, action) => {
       contactNumber: "",
       contactNetwork: "MTN",
       selectedNetwork: "MTN",
+    };
+  }
+  if (action.type === FETCH_REFERRAL_LIST_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      ...action.payload,
     };
   }
   if (action.type === SEND_MAIL_SUCCESS) {

@@ -26,7 +26,7 @@ function SideMenuBtn() {
             className={({ isActive }) => (isActive ? "btn active" : "btn")}
           >
             <span>{icon}</span>
-            <span>{name}</span>
+            <span className="">{name}</span>
           </NavLink>
         );
       })}
@@ -40,6 +40,7 @@ const Container = styled.div`
 
   flex-direction: column;
   justify-content: center;
+  /* align-items: center; */
   width: 100%;
   svg {
     font-size: xx-large;

@@ -35,6 +35,7 @@ const {
   DELETE_CONTACT_SUCCESS,
   FETCH_CONTACT_SUCCESS,
   ADD_CONTACT_SUCCESS,
+  FETCH_REFERRAL_LIST_SUCCESS,
 } = require("./actions");
 
 const AppContext = React.createContext();
@@ -185,39 +186,10 @@ export const AppProvider = ({ children }) => {
     selectedTransactionStatus: "all",
     transactionFrom: "",
     // earnings
-    earningBalance: "25820",
-    totalReferred: "25",
-    totalEarned: "50000",
-    referralList: [
-      {
-        userName: "Oniboy",
-        amountEarned: "723",
-        currentBalance: "50",
-        lastSeen: "Today 12:05pm",
-        joinedOn: "25th Aug 2023",
-      },
-      {
-        userName: "Onisabi Abdullahi",
-        amountEarned: "100",
-        currentBalance: "0",
-        lastSeen: "Today 2:05pm",
-        joinedOn: "25th Jan 2023",
-      },
-      {
-        userName: "Oniboy2",
-        amountEarned: "73",
-        currentBalance: "500",
-        lastSeen: "Today 2:05pm",
-        joinedOn: "25th Sep 2023",
-      },
-      {
-        userName: "Oniboy2",
-        amountEarned: "0",
-        currentBalance: "0",
-        lastSeen: "Today 2:05pm",
-        joinedOn: "25th Jan 2023",
-      },
-    ],
+    earningBalance: "0",
+    totalReferred: "0",
+    totalEarned: "0",
+    referralList: [],
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -907,6 +879,34 @@ export const AppProvider = ({ children }) => {
       toast.error(e.response.data.msg);
     }
   };
+  const fetchReferralList = async () => {
+    dispatch({ type: START_LOADING });
+    try {
+      let endPoint = "/auth/referral?";
+      if (state.page) endPoint = endPoint + `page=${state.page}`;
+      const { data } = await authFetch.get(endPoint);
+      dispatch({
+        type: FETCH_REFERRAL_LIST_SUCCESS,
+        payload: data,
+      });
+      // toast(msg.data.msg);
+    } catch (e) {
+      dispatch({ type: STOP_LOADING });
+      toast.error(e.response.data.msg);
+    }
+  };
+  const withdrawEarnings = async () => {
+    dispatch({ type: START_LOADING });
+    try {
+      const { data } = await authFetch.post("/auth/withdrawEarning");
+      toast(data.msg);
+      fetchReferralList();
+      // dispatch({ type: STOP_LOADING });
+    } catch (e) {
+      dispatch({ type: STOP_LOADING });
+      toast.error(e.response.data.msg);
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -944,6 +944,8 @@ export const AppProvider = ({ children }) => {
         addContact,
         fetchContact,
         deleteContact,
+        fetchReferralList,
+        withdrawEarnings,
       }}
     >
       {children}

@@ -22,9 +22,11 @@ const { disco } = require("../API_DATA/disco");
 const { network } = require("../API_DATA/network");
 const { TRANSFER_RECEIPT, BONUS_RECEIPT } = require("./TransactionReceipt");
 const Contact = require("../Models/contactModel");
+const Referral = require("../Models/referralModel");
 // const generateVpayAcc = require("../Utils/generateVpayAccount");
 const generateAcc = require("../Utils/account");
 const { addReferral } = require("../Utils/referralBonus");
+const generateReceipt = require("./generateReceipt");
 
 const register = async (req, res) => {
   let {
@@ -261,7 +263,86 @@ const login = async (req, res) => {
     },
   });
 };
+//
+const fetchReferral = async (req, res) => {
+  const { userId } = req.user;
+  const { page } = req.query;
+  try {
+    // const
+    //   let result = Referral.find(queryObject);
+    console.log(userId);
+    const { userName, earningBalance } = await User.findOne({ _id: userId });
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+    const referralList = await Referral.find({ referredBy: userName })
+      .skip(skip)
+      .limit(limit);
+    const totalReferred = await Referral.find({
+      referredBy: userName,
+    }).countDocuments();
+    // console.log(referralList);
+    let totalEarned = referralList.reduce((acc, curr) => {
+      return (acc += curr.amountEarned);
+    }, 0);
 
+    res.status(200).json({
+      msg: "fetched",
+      referralList,
+      earningBalance,
+      totalEarned,
+      totalReferred,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const withdrawEarning = async (req, res) => {
+  const { userId } = req.user;
+  try {
+    const { balance, earningBalance, userName } = await User.findOne({
+      _id: userId,
+    });
+    // check if the user reach the minimum withdrawal
+    if (earningBalance < 100)
+      return res.status(400).json({ msg: "Minimum withdrawal is ₦100 " });
+    //check if he has sufficient amount
+    if (earningBalance < earningBalance)
+      return res
+        .status(400)
+        .json({ msg: "Insufficient balance for the operation" });
+    //deduct from earning balance
+    await User.updateOne(
+      { _id: userId },
+      { $inc: { earningBalance: -earningBalance } }
+    );
+    // and add to main balance
+    await User.updateOne(
+      { _id: userId },
+      { $inc: { balance: earningBalance } }
+    );
+    //create a transaction for the transfer
+    await generateReceipt({
+      transactionId: uuid(),
+      planNetwork: "withdrawal",
+      planName: `transfer of ₦${earningBalance} to main balance`,
+      phoneNumber: userName,
+      status: "success",
+      amountToCharge: earningBalance,
+      balance,
+      userId,
+      userName: userName,
+      type: "earning",
+      increased: true,
+    });
+    //respond to the request
+    res.status(200).json({ msg: "withdrawal successful" });
+  } catch (error) {
+    // respond to the request
+    console.log(error);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+};
 const userData = async (req, res) => {
   // return details of the user and purchase objects
   const { userId, userType } = req.user;
@@ -833,4 +914,6 @@ module.exports = {
   addContact,
   updateContact,
   deleteContact,
+  fetchReferral,
+  withdrawEarning,
 };
