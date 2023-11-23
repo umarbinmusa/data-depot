@@ -33,6 +33,7 @@ import BuyElectricity from "./pages/BuyElectricity";
 import UpdatePrice from "./pages/UpdatePrice";
 import MyEarnings from "./pages/MyEarnings";
 import Contacts from "./pages/Contacts";
+import Loan from "./pages/Loan";
 
 export default function App() {
   const { token, checkLoggedIn, isLoading } = useGlobalContext();
@@ -61,6 +62,7 @@ export default function App() {
           <Route path="transactions" element={<Transactions />} />
           <Route path="contacts" element={<Contacts />} />
           <Route path="earnings" element={<MyEarnings />} />
+          <Route path="loan" element={<Loan />} />
           <Route path="transfer" element={<Transfer />} />
           <Route path="user" element={<UserDetails />} />
           <Route path="changePassword" element={<Settings />} />
