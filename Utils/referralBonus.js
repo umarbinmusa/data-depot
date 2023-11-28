@@ -4,16 +4,20 @@ const generateReceipt = require("../Controllers/generateReceipt");
 const { randomUUID } = require("crypto");
 const referralBonus = async ({ sponsorUserName, userName, bonusAmount }) => {
   try {
-    const sponsor = await User.findOne({ sponsorUserName });
+    const sponsor = await User.findOne({ userName: sponsorUserName });
     console.log(sponsor.role);
     console.log({ sponsorUserName, userName, bonusAmount });
     if (!sponsor) return;
     if (sponsor.role !== "ambassador") return;
     // increasing sponsor balance
-    await User.updateOne({
-      _id: sponsor._id,
-      $inc: { earningBalance: bonusAmount },
-    });
+    await User.updateOne(
+      {
+        _id: sponsor._id,
+      },
+      {
+        $inc: { earningBalance: bonusAmount },
+      }
+    );
     // increasing the total amount earned on the user
     await Referral.updateOne(
       { referredBy: sponsor.userName, userName },
