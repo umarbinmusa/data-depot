@@ -51,13 +51,17 @@ const reverseReferralBonus = async ({
 }) => {
   try {
     // decreasing sponsor balance
-    const sponsor = await User.findOne({ sponsorUserName });
+    const sponsor = await User.findOne({ userName: sponsorUserName });
     if (!sponsor) return;
     if (sponsor.role !== "ambassador") return;
-    await User.updateOne({
-      _id: sponsor._id,
-      $inc: { earningBalance: -bonusAmount },
-    });
+    await User.updateOne(
+      {
+        _id: sponsor._id,
+      },
+      {
+        $inc: { earningBalance: -bonusAmount },
+      }
+    );
     // decreasing the total amount earned on the user
     await Referral.updateOne(
       { referredBy: sponsor.userName, userName },
