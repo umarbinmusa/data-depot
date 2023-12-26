@@ -7,6 +7,7 @@ import { RiRefund2Fill } from "react-icons/ri";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import stamp from "../images/stamp.png";
 function TransactionDetails({ close, details }) {
   const navigate = useNavigate();
   const { isAdmin, refund, handleChange, isAgent } = useGlobalContext();
@@ -76,6 +77,9 @@ function TransactionDetails({ close, details }) {
   return (
     <Container>
       <TransactionDetailsContainer isBalanceIncrease={isBalanceIncrease}>
+        <div className="absolute max-w-xs top-20 left-20 opacity-40">
+          <img src={stamp} alt="" />
+        </div>
         <button className="close__btn btn btn-danger" onClick={close}>
           X
         </button>
