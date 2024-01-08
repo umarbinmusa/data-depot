@@ -1,172 +1,285 @@
-import { Link } from "react-router-dom";
-import SmallNav from "../components/SmallNav";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import { FaClipboardList, FaUserAlt, FaTimes } from "react-icons/fa";
 import LandingNav from "../components/LandingNav";
+import { useGlobalContext } from "../context/UserContext";
+import airtimeSvg from "../images/airtime.svg";
+import dataSvg from "../images/data.svg";
+import electricitySvg from "../images/electricity.svg";
+const Landing = () => {
+  const { user, token } = useGlobalContext();
+  const navigate = useNavigate();
 
-const Landing2 = () => {
-    return (
-<div>
- <LandingNav />
-<SmallNav />
-
-
-        <div class="min-h-screen"
-            style={{ background: 'linear-gradient(to bottom,#F0F4FD,#A1A3BA)', }}>
-
-
- 
-
-            <div class="flex flex-col lg:flex-row">
-
-            <div>
-                      <Link to="/">    <img src="images/afri.png" class=" mt-0 h-20" alt="" /> </Link>
-                        </div>
-            
-                <div class='m-20 text-center lg:text-left'>
-                    <h1 class='font-black text-5xl lg:text-6xl'>
-                        WELCOME TO
-                        <br />
-                        <span class='font-quicksand font-light'>AFRICASUB</span>
-                    </h1>
-                    <p class='text-xl text-gray-900'>WE PROVIDE THE BEST VTU SYSTEM FOR YOU AND OUR PRODUCT ARE TESTED ABD TRUSTED BY OUR USERS</p>
-                    <p class='text-xl text-gray-900'>AND ALSO WE PROVIDE APIS TO PEOPLE WHO WANT TO USE OUR API </p>
-                  <Link to="/pricelist"><input class="inline-block bg-indigo-500  px-10 py-5 rounded-full shadow-lg uppercase text-lg tracking-wide mt-5 ml-12" type="button" value="Price List" /></Link>
-
-                </div>
-
-                <div > <img src="./images/afri.png" alt='' className='w-screen lg:max-w-xl' /></div>
-            </div>
-            <div class="flex mt-5 flex-col lg:flex-row lg:mt-7   ">
-                <div > <img src="./images/svg1.svg" alt='' className='w-screen lg:max-w-xl' /></div>
-
-                <div class='m-20 text-center lg:text-left'>
-                    <h1 class='font-black text-5xl lg:text-6xl'>
-                        Our Services are
-
-                    </h1> 
-                    <ol type="numbers">
-                        <li class=' text-2xl lg:text-3xl'>Airtime</li>
-                        <li class=' text-2xl lg:text-3xl'>Data</li>
-                        <li class=' text-2xl lg:text-3xl'>Cable Subscription</li>
-                        <li class='text-2xl lg:text-3xl'>Currency Exchage</li>
-                        <li class='text-2xl lg:text-3xl'>Ambassadorship</li>
-                        <li class='text-2xl lg:text-3xl'>Refer and get paid</li>
-
-
-
-                    </ol>
-                   <Link to="/Register"> <input class="inline-block bg-indigo-500  px-10 py-5 rounded-full shadow-lg uppercase text-lg tracking-wide mt-5 ml-12" type="button" value="Register" /></Link>
-                   <Link to=""> <input class="inline-block bg-indigo-500  px-10 py-5 rounded-full shadow-lg uppercase text-lg tracking-wide mt-5 ml-12" type="button" value="Download App" /> </Link>
-                </div>
-                
-
-            </div>
-
-           
-
-<footer class="bg-black dark:bg-gray-900">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div class="md:flex md:justify-between">
-          <div class="mb-6 md:mb-0">
-              
-                  <img src="images/afri.png" class=" h-40"  alt="" />
-                  <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AFRICASUB</span>
-          
+  const services = [
+    {
+      name: "airtime",
+      icon: airtimeSvg,
+      desc: "With Our Fast And Easy Service, Your Airtime Will Be Brand New!!!",
+    },
+    {
+      name: "data",
+      icon: dataSvg,
+      desc: "Want To Help Your Friends And Family Connected? With Our Data Bundle Service, You Can Do Just That!!!",
+    },
+    {
+      name: "electricity token",
+      icon: electricitySvg,
+      desc: "With Our Easy-To-Use Service, You Can Top-Up Your Electricity Account Without The Hassle Of Going To A Store Or Waiting Inline",
+    },
+  ];
+  const faqData = [
+    {
+      title: "What is a VTU website?",
+      desc: "A VTU website allows you to sell prepaid virtual top-up (VTU) services such as airtime, data bundles, and bill payments for various networks and services.",
+      isActive: true,
+    },
+    {
+      title: "Benefits of using your website?",
+      desc: "Convenient, easy-to-use, competitive prices, wide product range, secure transactions, fast & efficient service.",
+      isActive: false,
+    },
+    {
+      title: "Do I need to register?",
+      desc: "No, browsing is free, but registration & account creation are required for purchases.",
+      isActive: false,
+    },
+    {
+      title: "Is registration free?",
+      desc: "Yes, registration is completely free.",
+      isActive: false,
+    },
+    {
+      title: "What payment methods do you accept?",
+      desc: "We accept debit/credit cards, bank transfers, and mobile money for your convenience.",
+      isActive: false,
+    },
+    {
+      title: "How do I create an account?",
+      desc: "Click the 'Register' button and follow the simple steps to create your account.",
+      isActive: false,
+    },
+    {
+      title: "How to top up my account balance?",
+      desc: "Top up your account balance using any of our supported payment methods.",
+      isActive: false,
+    },
+    {
+      title: "How to purchase data, airtime, or other VTU services?",
+      desc: "Browse and select the desired product/service, enter recipient details, choose payment method, and click 'Purchase'.",
+      isActive: false,
+    },
+    {
+      title: "Transaction processing time?",
+      desc: "Most transactions are processed within seconds, slight delays depending on payment method and network.",
+      isActive: false,
+    },
+    {
+      title: "What happens if my transaction fails?",
+      desc: "Contact our customer support for assistance. We will investigate and resolve the issue promptly. **We will also refund any failed transactions automatically.**",
+      isActive: false,
+    },
+    {
+      title: "Do you offer discounts or promotions?",
+      desc: "Yes, we regularly offer discounts and promotions. Check our website or social media pages for current offers.",
+      isActive: false,
+    },
+    {
+      title: "Can I become a reseller?",
+      desc: "Yes, we offer a reseller program where you can earn commissions by selling our products and services.",
+      isActive: false,
+    },
+    {
+      title: "Do you have an API?",
+      desc: "Yes, we offer an API to integrate our VTU services into your website or application.",
+      isActive: false,
+    },
+    {
+      title: "What data plans do you offer?",
+      desc: "We offer a wide range of data plans for various networks and devices.",
+      isActive: false,
+    },
+    {
+      title: "How to activate my data plan?",
+      desc: "Once purchased, your data plan will be automatically activated on the recipient's phone number.",
+      isActive: false,
+    },
+    {
+      title: "What airtime denominations are available?",
+      desc: "We offer airtime denominations for all major networks.",
+      isActive: false,
+    },
+    {
+      title: "How to top up someone's airtime?",
+      desc: "Enter recipient's phone number, choose desired airtime denomination, and select your preferred payment method.",
+      isActive: false,
+    },
+    {
+      title: "What VTU services do you offer?",
+      desc: "We offer a wide range of VTU services, including bill payments for electricity, cable TV, internet, and more.",
+      isActive: false,
+    },
+    {
+      title: "How to pay my bills using your website?",
+      desc: "Select desired bill payment service, enter your account details, choose payment amount, and select your preferred payment method.",
+      isActive: false,
+    },
+  ];
+  const links = [
+    { name: "home", link: "/" },
+    { name: "login", link: "/login" },
+    { name: "register", link: "/register" },
+    { name: "pricing", link: "/priceList" },
+  ];
+  const [faqs, setFaqs] = useState(faqData);
+  const handleFaqClick = (currentOpenIndex) => {
+    let newFaq = [];
+    const index = faqData.findIndex((item) => item.isActive === true);
+    if (index !== -1) {
+      faqData[index].isActive = false;
+      faqData[currentOpenIndex].isActive = true;
+    }
+    newFaq = faqData;
+    setFaqs(newFaq);
+  };
+  return (
+    <div className="relative">
+      <LandingNav />
+      <section>
+        <div className="skewed"></div>
+      </section>
+      <section className="mt-[80px] min-h-[60vh] m-auto md:min-h-[85vh]  max-w-[var(--max-width)]  flex flex-col md:flex-row md:items-stretch gap-4 w-10/12 h-full">
+        <div className="md:w-6/12 ">
+          <h1 className="font-extrabold text-transparent text-center md:text-6xl bg-clip-text bg-gradient-to-r from-[var(--primary-600)] to-[var(--primary-300)]">
+            {" "}
+            {token ? `Hi ${user.userName}, ` : ""}Welcome to AFRICASUB
+          </h1>
+          <p className="text-center text-3xl md:text-4xl">
+            A technology platform that offers solutions to digital needs at best
+            possible price without compromising quality.
+          </p>
+          <div className=" flex justify-center gap-4">
+            <button
+              className=" btn"
+              onClick={() => navigate(`${token ? "/profile" : "/login"}`)}
+            >
+              <FaUserAlt className="mr-2" />
+              {token ? "Dashboard" : "Login/Register"}
+            </button>
+            <button
+              className=" btn  btn-hipster"
+              onClick={() => navigate("/priceList")}
+            >
+              <FaClipboardList className="mr-2" />
+              Price list
+            </button>
           </div>
-          <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-              <div>
-                  <h2 class=" text-sm font-semibold  uppercase dark:text-white">HOME</h2>
-                  <ul class=" dark:text-gray-400 font-medium">
-                      <li class="mb-4">
-                          <li class="hover:underline">LOGIN </li>
-                     
-                      
-                          <li class="hover:underline">REGISTER</li>
-                     
-                     
-                          <li class="hover:underline">PRICE LIST</li>
-                     
-                     
-                          <li class="hover:underline">DOWNLOAD APP</li>
-                      </li>
-                  </ul>
-              </div>
-              <div>
-                 <ul class=" dark:text-gray-400 font-medium">
-                <li class="mb-1">
-                        <li class="hover:underline">PHONE NUMBERS</li>
-                        <li class="hover:underline">08100812221</li>
-                        <li class="hover:underline">08100812221</li>
-                        <li class="hover:underline">08100812221</li>
-                          
-                      </li>
-                      </ul>
-                  
-                  <ul class="text-dark:text-gray-400 font-medium">
-                      <li class="mb-4">
-                        <li class="hover:underline">OFFICE ADDRESS</li>
-                        <li class="hover:underline">old jos road filin mallawa</li>
-                          
-                      </li>
-                      
-                  </ul>
-              </div>
-              <div>
-                  <h2 class="mb-6 text-sm font-semibold  uppercase dark:text-white">EMAILs</h2>
- <li class="hover:underline">africa4sub@gmail.com</li>
- <li class="hover:underline">support@africasub.com</li>
-                  <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                      
-                  </ul>
-              </div>
-          </div>
-      </div>
-      <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-      <div class="sm:flex sm:items-center sm:justify-between">
-          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 AFRICASUB All Rights Reserved.
-          </span>
-          <div class="flex mt-4 sm:justify-center sm:mt-0">
-              <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
-                        <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
-                    </svg>
-                  <span class="sr-only">Facebook page</span>
-              </a>
-              <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 16">
-                        <path d="M16.942 1.556a16.3 16.3 0 0 0-4.126-1.3 12.04 12.04 0 0 0-.529 1.1 15.175 15.175 0 0 0-4.573 0 11.585 11.585 0 0 0-.535-1.1 16.274 16.274 0 0 0-4.129 1.3A17.392 17.392 0 0 0 .182 13.218a15.785 15.785 0 0 0 4.963 2.521c.41-.564.773-1.16 1.084-1.785a10.63 10.63 0 0 1-1.706-.83c.143-.106.283-.217.418-.33a11.664 11.664 0 0 0 10.118 0c.137.113.277.224.418.33-.544.328-1.116.606-1.71.832a12.52 12.52 0 0 0 1.084 1.785 16.46 16.46 0 0 0 5.064-2.595 17.286 17.286 0 0 0-2.973-11.59ZM6.678 10.813a1.941 1.941 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.919 1.919 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Zm6.644 0a1.94 1.94 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.918 1.918 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Z"/>
-                    </svg>
-                  <span class="sr-only">Discord community</span>
-              </a>
-              <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 17">
-                    <path fill-rule="evenodd" d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z" clip-rule="evenodd"/>
-                </svg>
-                  <span class="sr-only">Twitter page</span>
-              </a>
-              <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="sr-only">GitHub account</span>
-              </a>
-              <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 0a10 10 0 1 0 10 10A10.009 10.009 0 0 0 10 0Zm6.613 4.614a8.523 8.523 0 0 1 1.93 5.32 20.094 20.094 0 0 0-5.949-.274c-.059-.149-.122-.292-.184-.441a23.879 23.879 0 0 0-.566-1.239 11.41 11.41 0 0 0 4.769-3.366ZM8 1.707a8.821 8.821 0 0 1 2-.238 8.5 8.5 0 0 1 5.664 2.152 9.608 9.608 0 0 1-4.476 3.087A45.758 45.758 0 0 0 8 1.707ZM1.642 8.262a8.57 8.57 0 0 1 4.73-5.981A53.998 53.998 0 0 1 9.54 7.222a32.078 32.078 0 0 1-7.9 1.04h.002Zm2.01 7.46a8.51 8.51 0 0 1-2.2-5.707v-.262a31.64 31.64 0 0 0 8.777-1.219c.243.477.477.964.692 1.449-.114.032-.227.067-.336.1a13.569 13.569 0 0 0-6.942 5.636l.009.003ZM10 18.556a8.508 8.508 0 0 1-5.243-1.8 11.717 11.717 0 0 1 6.7-5.332.509.509 0 0 1 .055-.02 35.65 35.65 0 0 1 1.819 6.476 8.476 8.476 0 0 1-3.331.676Zm4.772-1.462A37.232 37.232 0 0 0 13.113 11a12.513 12.513 0 0 1 5.321.364 8.56 8.56 0 0 1-3.66 5.73h-.002Z" clip-rule="evenodd"/>
-                </svg>
-                  <span class="sr-only">Dribbble account</span>
-              </a>
-          </div>
-      </div>
-    </div>
-</footer>
-
-          
-
-
         </div>
-</div>
+        <div className="col hidden md:block">
+          <img src="./assets/svg1.svg" alt="" />
+        </div>
+        <div className="col md:hidden mb-8 max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
+          <img src="./assets/mobil.png" alt="" />
+        </div>
+      </section>
+      <section className="text-center flex flex-col justify-center items-center">
+        <h2 className="title text-center underline"> services</h2>
+        <div className="md:flex max-w-[var(--max-width)] md:gap-5  md:justify-center w-[80%]  m-auto md:m-0 ">
+          {services.map((e) => {
+            return (
+              <div
+                key={e.name}
+                className=" border-t-2 border-t-purple-800 text-center mt-8 p-4 rounded-md shadow-md border "
+              >
+                <div className="max-w-[100px] m-auto">
+                  <img src={e.icon} alt="" className="img" />
+                </div>
+                <p className="font-bold capitalize">{e.name}</p>
+                <p>{e.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+      <section className="mt-10 max-w-[var(--max-width)] w-11/12 m-auto">
+        <h2 className="title text-center underline">FAQ</h2>
+        <div className="flex flex-col gap-4 ">
+          {faqs.map((e, index) => {
+            return (
+              <div
+                onClick={() => handleFaqClick(index)}
+                key={e.desc}
+                className=" border-2 rounded relative  p-3 "
+              >
+                {e.isActive ? (
+                  <IoIosArrowDropup className=" text-4xl absolute top-2 right-4" />
+                ) : (
+                  <IoIosArrowDropdown className="text-4xl absolute top-2 right-4" />
+                )}
+                <h4 className="font-bold text-[var(--primary-400)]">
+                  {e.title}
+                </h4>
+                {e.isActive && (
+                  <p className="text-center font-bold">{e.desc}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+      <section className="mt-10 bg-[var(--primary-500)] pb-2   text-white border items-center">
+        <div className="p-4  max-w-[1300px] m-auto w-11/12">
+          <div className=" flex justify-between gap-8 md:gap-0 items-center capitalize mb-4">
+            <div className="rounded-full hidden w-48 md:block">
+              //<img src="./assets/logo.png" alt="" className="img" />//
+            </div>
+            <div className="">
+              <ul className="underline">
+                {links.map((e, index) => {
+                  return (
+                    <li
+                      key={index}
+                      onClick={() => navigate(e.link)}
+                      className="p-2 text-lg cursor-pointer"
+                    >
+                      {e.name}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
 
+            <div className="">
+              <div className=" ">
+                <p className="uppercase text-blue-500">Office address</p>
+                <p>New Jos Road Filin Mallawa.</p>
+              </div>
+              <div className=" ">
+                <p className="uppercase text-blue-500">phone number</p>
+                <p>08100812221</p>
+              </div>
+              <div className=" lowercase">
+                <p className="uppercase text-blue-500">Contact us</p>
+                <p>admin@africasub.com</p>
+                <p>africa4sub@gmail.com</p>
+              </div>
+            </div>
+          </div>
+          <p className="text-center capitalize">
+            All right reserved &copy; {new Date().getFullYear()} Designed &
+            developed by{" "}
+            <a
+              className="text-blue-500"
+              href="https://my-react-tailwind.vercel.app/"
+              target="blank"
+            >
+              DEVSTACK ICT SOLUTIONS
+            </a>
+          </p>
+        </div>
+      </section>{" "}
+    </div>
+  );
+};
 
-    );
-}
-export default Landing2;
+export default Landing;
