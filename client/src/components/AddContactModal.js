@@ -3,10 +3,10 @@ import FormInput from "./FormInput";
 import FormRowSelect from "./FormRowSelect";
 import { useGlobalContext } from "../context/UserContext";
 import { toast } from "react-toastify";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const AddContactModal = ({
   close,
-  isAdding,
   isEditing,
   contactName: name,
   contactNumber: number,
@@ -20,6 +20,8 @@ const AddContactModal = ({
     contactName,
     contactNumber,
     addContact,
+    isLoading,
+    loadingText,
   } = useGlobalContext();
   const handleInputChange = (e) => {
     handleChange({ name: e.target.name, value: e.target.value });
@@ -72,10 +74,24 @@ const AddContactModal = ({
           labelText="select the network"
         />
         <div className="flex justify-center space-x-4">
-          <button className="btn btn-primary block mt-2">
-            {isEditing ? "update" : "add"}
+          <button disabled={isLoading} className="btn btn-primary block mt-2">
+            {isLoading ? (
+              <>
+                <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 mr-3" />
+                {loadingText}
+              </>
+            ) : isEditing ? (
+              "update"
+            ) : (
+              "add"
+            )}
+            {/* {isEditing ? "update" : "add"} */}
           </button>
-          <button className="btn btn-danger block mt-2" onClick={close}>
+          <button
+            disabled={isLoading}
+            className="btn btn-danger block mt-2"
+            onClick={close}
+          >
             close
           </button>
         </div>

@@ -8,17 +8,21 @@ const UserDetails = ({
   _id,
   balance,
   createdAt,
+  reservedAccountBank,
+  reservedAccountBank2,
+  reservedAccountBank3,
+  reservedAccountNo,
+  reservedAccountNo2,
+  reservedAccountNo3,
   phoneNumber,
   userType,
   lastLogin,
   email,
   handleUserTransaction,
-  // handleSendEmail,
-  // handleUpgradeUser,
-  accountNumbers,
+  handleSendEmail,
+  handleUpgradeUser,
   referredBy,
-  role,
-  earningBalance,
+  accountNumbers,
 }) => {
   return (
     <div className=" bg-black/50 flex m-auto h-full fixed left-0 right-0 top-0 bottom-0 z-10">
@@ -27,13 +31,11 @@ const UserDetails = ({
         key={_id}
       >
         <h4 className="underline text-center">{userName}</h4>
-        <div className="font-semibold capitalize">
+        <div className="font-semibold">
           {/* <p>Id: {_id}</p> */}
           <p>Balance: #{balance.toFixed(2)}</p>
-          <p>Earning Balance:{earningBalance}</p>
-          <p>Referred by: {referredBy}</p>
-          <p>Account type: {role}</p>
           <p>phone number: {phoneNumber}</p>
+          <p>Account type: {userType}</p>
           <p>email: {email}</p>
           <p>
             last loggedIn:{" "}
@@ -41,30 +43,28 @@ const UserDetails = ({
               "unknown"}
           </p>
           <p>Joined on: {moment(createdAt).format("LLL")}</p>
-
-          {accountNumbers.map((e) => {
-            return (
-              <p key={e.bankName}>
-                {e.bankName}: {e.accountNumber}
-              </p>
-            );
-          })}
+          <p>Referred By: {referredBy}</p>
+          {accountNumbers.map((e) => (
+            <p>
+              {e.bankName}: {e.accountNumber}
+            </p>
+          ))}
         </div>
         <div className="flex flex-wrap justify-center">
-          {/* <button
+          <button
             className="btn m-1 btn-hipster"
             onClick={() => handleSendEmail(email)}
             key={_id}
           >
             Send Email
-          </button> */}
+          </button>
           <button
             className="btn m-1"
             onClick={() => handleUserTransaction(userName)}
           >
             Transactions
           </button>
-          {/* <button
+          <button
             className="btn m-1"
             onClick={() =>
               handleUpgradeUser({ userId: _id, userType: userType })
@@ -72,7 +72,7 @@ const UserDetails = ({
           >
             Upgrade user
           </button>
-          <button className="btn m-1 btn-danger">Delete User</button> */}
+          <button className="btn m-1 btn-danger">Delete User</button>
           <button onClick={close} className="btn m-1 btn-danger">
             close
           </button>

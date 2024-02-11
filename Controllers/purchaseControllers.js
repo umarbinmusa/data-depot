@@ -14,9 +14,7 @@ const BUYAIRTIME = require("./APICALLS/Airtime/buyAirtime");
 const BUYDATA = require("./APICALLS/Data/Data");
 const { default: axios } = require("axios");
 const { disco } = require("../API_DATA/disco");
-const checkContact = require("../Utils/checkContact");
 const { referralBonus } = require("../Utils/referralBonus");
-
 const buyAirtime = async (req, res) => {
   const {
     user: { userId, userType },
@@ -64,17 +62,11 @@ const buyAirtime = async (req, res) => {
     };
     const receipt = await generateReceipt(payload);
     res.status(200).json({ msg: msg, receipt });
-    checkContact({
-      contactNumber: mobile_number,
-      contactNetwork: NETWORK,
-      userId: user._id,
-    });
   } else {
     await User.updateOne(
       { _id: userId },
       { $inc: { balance: +amountToCharge } }
     );
-
     return res.status(500).json({
       msg: msg || "Transaction failed",
     });
@@ -94,16 +86,30 @@ const buyData = async (req, res) => {
   const dataTobuy = await Data.findOne({ dataplan_id: plan });
   if (!dataTobuy)
     return res.status(400).json({ msg: "This data is not available" });
+  // const {
+  //   resellerPrice,
+  //   plan_type,
+  //   my_price,
+  //   plan: dataVolume,
+  //   volumeRatio,
+  // } = dataTobuy;
+
+  // let amountToCharge = my_price;
+  // if (isReseller || isApiUser) amountToCharge = resellerPrice || my_price;
   const {
     resellerPrice,
+    apiPrice,
     plan_type,
     my_price,
     plan: dataVolume,
     volumeRatio,
+    partnerPrice,
   } = dataTobuy;
 
   let amountToCharge = my_price;
-  if (isReseller || isApiUser) amountToCharge = resellerPrice || my_price;
+  if (isReseller) amountToCharge = resellerPrice;
+  if (isApiUser) amountToCharge = apiPrice;
+
   if (balance < amountToCharge || balance - amountToCharge < 0)
     return res
       .status(400)
@@ -136,9 +142,9 @@ const buyData = async (req, res) => {
 
   isSuccess = status;
   if (status) {
-    console.log({ ...data });
+    const transactionId = uuid();
     receipt = await generateReceipt({
-      transactionId: uuid(),
+      transactionId: transactionId,
       planNetwork: NETWORK,
       planName: `${plan_type} ${dataVolume}`,
       phoneNumber: mobile_number,
@@ -152,22 +158,20 @@ const buyData = async (req, res) => {
       costPrice,
       ...data,
     });
-  }
-  if (isSuccess) {
-    res.status(200).json({ msg, receipt });
-    checkContact({
-      contactNumber: mobile_number,
-      contactNetwork: NETWORK,
-      userId: user._id,
-    });
     if (user.referredBy) {
-      console.log("he was referred by someone");
+      console.log("referred by someone");
       referralBonus({
         sponsorUserName: user.referredBy,
         userName: user.userName,
         bonusAmount: volumeRatio,
+        amountToCharge,
+        sponsorTransId: transactionId,
+        partnerPrice,
       });
     }
+  }
+  if (isSuccess) {
+    res.status(200).json({ msg, receipt });
   } else {
     await User.updateOne(
       { _id: userId },

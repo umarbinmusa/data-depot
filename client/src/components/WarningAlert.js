@@ -2,52 +2,45 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGlobalContext } from "../context/UserContext";
-// import useApiCall from "../../AppData/dataFetch";
+import { Modal } from "./Modal";
 
-function WarninAlert({ close, details }) {
-  // const { upgradeUser } = useApiCall();
+function WarningAlert({ close, details }) {
   const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
   const { upgradeUser } = useGlobalContext();
 
   return (
-    <Container>
+    <Container className="">
       {confirm && (
-        <div className="confirm">
-          <TransactionDetailsContainer>
-            <p className="title">Are You sure? </p>
-
-            <p className="title">
-              You will be charged a one time payment of ₦1000 for this upgrade
-            </p>
-
-            <div className="myRow">
-              <button className="closeBtn btn" onClick={() => close()}>
-                No
-              </button>
-              <button
-                className="btn"
-                onClick={() => {
-                  close();
-                  upgradeUser();
-                }}
-              >
-                Yes pay ₦1000
-              </button>
-            </div>
-          </TransactionDetailsContainer>
-        </div>
+        <Modal
+          title="are you sure"
+          children="You will be charged a one time payment of ₦1000 for this upgrade"
+          buttons={[
+            {
+              name: "no",
+              handleClick: () => close(),
+              className: "btn-danger",
+            },
+            {
+              name: "Yes pay ₦1000 ",
+              handleClick: () => {
+                close();
+                upgradeUser();
+              },
+            },
+          ]}
+        />
       )}
-      <TransactionDetailsContainer>
-        <p className="title">
-          Updgrade to a reseller and enjoy a better discount
+      <TransactionDetailsContainer className=" text-center font-bold">
+        <p className="text-green-500">
+          Upgrade to a reseller and enjoy a better discount
         </p>
 
-        <p className="title" style={{ color: "red" }}>
+        <p className="text-red-900 text-sm">
           You will be charged one time payment of ₦1000 for this upgrade
         </p>
 
-        <div className="myRow">
+        <div className="row">
           <button className=" btn btn-danger" onClick={() => close()}>
             Later
           </button>
@@ -60,8 +53,7 @@ function WarninAlert({ close, details }) {
             Upgrade
           </button>
           <button
-            className="btn"
-            style={{ backgroundColor: "blue" }}
+            className="btn btn-hipster"
             onClick={() => navigate("/priceList")}
           >
             Price List
@@ -72,7 +64,7 @@ function WarninAlert({ close, details }) {
   );
 }
 
-export default WarninAlert;
+export default WarningAlert;
 const Container = styled.div`
   position: fixed; /* Sit on top of the page content */
   /* display: none; Hidden by default */
@@ -87,27 +79,6 @@ const Container = styled.div`
   cursor: pointer; /* Add a pointer on hover */
   display: flex;
   transition: all ease-in-out 2s;
-
-  div > p {
-    color: #000;
-  }
-  .confirm {
-    position: fixed; /* Sit on top of the page content */
-    /* display: none; Hidden by default */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-    z-index: 3; /* Specify a stack order in case you're using a different order for other elements */
-    cursor: pointer; /* Add a pointer on hover */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all ease-in-out 2s;
-  }
 `;
 const TransactionDetailsContainer = styled.div`
   background-color: #fff;
@@ -118,7 +89,8 @@ const TransactionDetailsContainer = styled.div`
   border-radius: 10px;
   transition: all ease-in-out 2s;
   overflow-y: scroll;
-
+  width: 80%;
+  max-width: 400px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
@@ -129,21 +101,5 @@ const TransactionDetailsContainer = styled.div`
     margin: 0.5rem;
     border: none;
     border-radius: 0.5rem;
-  }
-  p {
-    color: "#000";
-  }
-  .myRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    bottom: 0;
-    @media (max-width: 578px) {
-      flex-direction: column-reverse;
-    }
-  }
-  @media (max-width: 578px) {
-    width: 50vw;
   }
 `;

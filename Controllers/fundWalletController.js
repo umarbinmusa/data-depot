@@ -175,18 +175,12 @@ const flutterwave = async (req, res) => {
 // Crediting a user (monnify)
 const monnify = async (req, res) => {
   res.sendStatus(200);
-  // const computeHash = (requestBody) => {
-  //   const result = sha512.hmac(process.env.MONNIFY_API_SECRET, requestBody);
-  //   return result;
-  // };
-  // console.log(req.body);
   const stringifiedBody = JSON.stringify(req.body);
   const computedHash = sha512.hmac(
     process.env.MONNIFY_API_SECRET,
     stringifiedBody
   );
   const monnifySignature = req.headers["monnify-signature"];
-  // console.log({ monnifySignature, computedHash });
   if (!monnifySignature) return;
   if (monnifySignature != computedHash) return;
 
@@ -201,12 +195,10 @@ const monnify = async (req, res) => {
   if (eventType !== "SUCCESSFUL_TRANSACTION") return;
   if (!req.body.eventData.customer.email) return;
   let user = await User.findOne({ email });
-  // if (!user) user = await User.findOne({ email });
-  // const user = await User.findOne({ email: email });
+
   if (!user) return;
   const { _id, balance, userName } = user;
   // INCREMENT USER BALANCE
-  // console.log(req.body);
   await User.updateOne({ _id }, { $inc: { balance: settlementAmount } });
   // Generate transaction
   const transactionDetails = {
@@ -223,7 +215,6 @@ const monnify = async (req, res) => {
     createdAt: Date.now(),
   };
   await Transaction(transactionDetails).save();
-  // res.status(200).json({ eventType, amountPaid, paidOn, customer });
 };
 const vPay = async (req, res) => {
   console.log(req.body);

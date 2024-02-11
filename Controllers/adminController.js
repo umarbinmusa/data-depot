@@ -9,6 +9,8 @@ const voucher_codes = require("voucher-code-generator");
 const sendEmail = require("../Utils/sendMail");
 const { REFUND_RECEIPT } = require("./TransactionReceipt");
 const dataModel = require("../Models/dataModel");
+const notification = require("../Models/notification");
+const CostPrice = require("../Models/costPriceModel");
 const { reverseReferralBonus } = require("../Utils/referralBonus");
 const adminDetails = async (req, res) => {
   if (req.user.userId !== process.env.ADMIN_ID)
@@ -100,10 +102,6 @@ const sendMail = async (req, res) => {
   });
 };
 const refund = async (req, res) => {
-  if (req.user.userId !== process.env.ADMIN_ID)
-    return res.status(401).json({
-      msg: "You are not authorized to perform this action",
-    });
   const { id: transactionId } = req.params;
   try {
     const transactionObject = await Transaction.findOne({
@@ -119,6 +117,9 @@ const refund = async (req, res) => {
       trans_amount,
       _id,
       trans_Status,
+      trans_volume_ratio,
+      trans_profit,
+      earningId,
     } = transactionObject;
 
     if (trans_Status === "refunded")
@@ -129,7 +130,7 @@ const refund = async (req, res) => {
     });
     if (!transactionOwner)
       return res.status(400).json({ msg: "Transaction owner not found" });
-    const { userName, referredBy, balance } = transactionOwner;
+    const { userName, referredBy, balance, isPartner } = transactionOwner;
 
     // generate receipt
     const response = await REFUND_RECEIPT({
@@ -143,24 +144,32 @@ const refund = async (req, res) => {
         { _id: userId },
         { $inc: { balance: trans_amount } }
       );
+      if (earningId) {
+        reverseReferralBonus({
+          bonusAmount: trans_volume_ratio,
+          sponsorUserName: referredBy,
+          userName,
+          amountToCharge: trans_profit,
+          earningId,
+        });
+      }
     }
 
-    // remove the refund bonus from sponsor if it is a data transaction
-    if (referredBy && trans_Type === "data") {
-      reverseReferralBonus({
-        bonusAmount: transactionObject.trans_volume_ratio,
-        sponsorUserName: referredBy,
-        userName,
-      });
-    }
     res.status(200).json({
       msg: `Refund of ₦ ${trans_amount} for ${userName} was successful`,
     });
     await Transaction.updateOne(
       { _id: transactionId },
-      { $set: { trans_Status: "refunded" } }
+      {
+        $set: {
+          trans_Status: "refunded",
+          trans_profit: 0,
+          trans_volume_ratio: 0,
+        },
+      }
     );
   } catch (error) {
+    console.log(error);
     res.status(500).json({ msg: error.message, error: error });
   }
 };
@@ -232,12 +241,8 @@ const searchUsers = async (req, res) => {
   });
 };
 const updatePrice = async (req, res) => {
-  if (req.user.userId !== process.env.ADMIN_ID)
-    return res.status(401).json({
-      msg: "You are not authorized to perform this action",
-    });
   const {
-    newPrice: { price, reseller, api },
+    newPrice: { price, reseller, api, partner },
     dataId,
   } = req.body;
   let newUpdate = {};
@@ -247,11 +252,18 @@ const updatePrice = async (req, res) => {
   if (reseller) {
     newUpdate.resellerPrice = reseller;
   }
+  if (partner) {
+    newUpdate.partnerPrice = partner;
+  }
   if (api) {
     newUpdate.apiPrice = api;
   }
   try {
-    await dataModel.updateOne({ _id: dataId }, { $set: newUpdate });
+    const isUpdated = await dataModel.updateOne(
+      { _id: dataId },
+      { $set: newUpdate }
+    );
+    console.log(isUpdated);
     res.status(200).json({ msg: "Price updated successfully" });
   } catch (e) {
     res.status(500).json({ msg: "An error occur" });
@@ -268,6 +280,79 @@ const updateCostPrice = async (req, res) => {
     res.status(500).json({ msg: "Something went wrong" });
   }
 };
+const getCostPrice = async (req, res) => {
+  try {
+    const costPrice = await CostPrice.find();
+    return res.status(200).json(costPrice);
+  } catch (error) {
+    res.status(500).json({ msg: "An error occur" });
+
+    console.log(error);
+  }
+};
+const updateNotification = async (req, res) => {
+  const { msg } = req.body;
+  try {
+    await notification.updateOne({ msg });
+    return res.status(200).json({ msg });
+  } catch (e) {
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
+const getNotification = async (req, res) => {
+  try {
+    const { msg } = await notification.findOne();
+    // console.log(msg);
+    return res.status(200).json({ msg });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
+const upgradeUser = async (req, res) => {
+  const { userType, userId } = req.params;
+  try {
+    await User.updateOne({ _id: userId }, { $set: { userType } });
+    res.status(200).json({ msg: `User upgraded to a ${userType}` });
+  } catch (error) {
+    res.status(500).json({ msg: "User upgrade failed" });
+  }
+};
+const approveWithdrawal = async (req, res) => {
+  const { withdrawalId } = req.body;
+  let isAdmin = process.env.ADMIN_ID === req.user.userId;
+  if (!isAdmin)
+    return res
+      .status(400)
+      .json({ msg: "You are not allowed to perform this action" });
+
+  try {
+    const withdrawalTransaction = await Transaction.findById(withdrawalId);
+    if (!withdrawalTransaction)
+      return res.status(400).json({ msg: "No transaction with this ID" });
+    //check if the requester is the one who made the transaction
+    const { trans_By, trans_amount, trans_Status } = withdrawalTransaction;
+    if (trans_Status === "success")
+      return res.status(400).json({ msg: "This withdrawal has been settled" });
+    const user = await User.findById(trans_By);
+    if (!user) return res.status(400).json({ msg: "user does not exist" });
+    const { accountNumber, nameOnAccount, bank } = user.withdrawalDetails;
+    // Update the transaction status
+    await Transaction.updateOne(
+      { _id: withdrawalId },
+      {
+        $set: {
+          trans_Status: "success",
+          apiResponse: `A payment of ${trans_amount} has been sent to ${nameOnAccount} ${accountNumber} ${bank}.`,
+        },
+      }
+    );
+    res.status(200).json({ msg: "withdrawal approved " });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "something went wrong" });
+  }
+};
 module.exports = {
   adminDetails,
   generateCoupon,
@@ -277,4 +362,9 @@ module.exports = {
   searchUsers,
   updatePrice,
   updateCostPrice,
+  getCostPrice,
+  updateNotification,
+  getNotification,
+  upgradeUser,
+  approveWithdrawal,
 };

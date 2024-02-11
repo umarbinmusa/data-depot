@@ -3,11 +3,17 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { useGlobalContext } from "../context/UserContext";
-import { sideBarButton, adminSideBarButton } from "../utils/data";
+import {
+  sideBarButton,
+  adminSideBarButton,
+  agentSideBarButton,
+} from "../utils/data";
 function SideMenuBtn() {
-  const { toggleSideBar, isSideBarOpen, isAdmin } = useGlobalContext();
+  const { toggleSideBar, isSideBarOpen, isAdmin, isAgent } = useGlobalContext();
   const sideBarNav = isAdmin
     ? sideBarButton.concat(adminSideBarButton)
+    : isAgent
+    ? sideBarButton.concat(agentSideBarButton)
     : sideBarButton;
   return (
     <Container
@@ -21,12 +27,14 @@ function SideMenuBtn() {
           <NavLink
             to={url}
             key={index}
-            // className={({ isActive }) => (isActive ? "btn activeBtn" : "btn")}
+            // className={({ isActive }) =>
+            //   isActive ? "btn activeBtn bg-white" : "btn"
+            // }
             onClick={toggleSideBar}
             className={({ isActive }) => (isActive ? "btn active" : "btn")}
           >
             <span>{icon}</span>
-            <span className="">{name}</span>
+            <span>{name}</span>
           </NavLink>
         );
       })}
@@ -37,24 +45,20 @@ function SideMenuBtn() {
 export default SideMenuBtn;
 const Container = styled.div`
   display: flex;
-
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   width: 100%;
   svg {
     font-size: xx-large;
     margin-right: 2rem;
   }
-
+  /*  */
   .btn {
     display: flex;
-    /* flex-wrap: nowrap; */
-    margin-bottom: 2rem;
+    align-items: center;
+    margin-top: 1rem;
     padding: 1rem;
     border-radius: 1rem;
-    border: none;
-    color: #fff;
     background-color: transparent;
     transition: all 0.2s ease-in-out;
     &:hover {

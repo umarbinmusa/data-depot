@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SideMenuBtn from "./SideMenuBtn";
+import { RiAccountCircleFill } from "react-icons/ri";
 import { useGlobalContext } from "../context/UserContext";
 import avatar from "../images/avatar.svg";
 

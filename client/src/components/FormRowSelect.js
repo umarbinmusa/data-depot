@@ -1,15 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-const FormRowSelect = ({
-  labelText,
-  name,
-  value,
-  handleChange,
-  list,
-  className,
-}) => {
+const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
   return (
-    <Wrapper className={`form-row ${className}`}>
+    <Wrapper className="form-row">
       <label htmlFor={name} className="form-label text-left">
         {labelText || name}
       </label>
@@ -17,7 +10,7 @@ const FormRowSelect = ({
         name={name}
         value={value}
         onChange={handleChange}
-        className="form-select"
+        className="form-select capitalize"
       >
         {list.map((itemValue, index) => {
           return (

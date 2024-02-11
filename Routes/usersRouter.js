@@ -13,10 +13,14 @@ const {
   transferFund,
   changePassword,
   validateUser,
+  // generateVpay,
+  // updateWebhookUrl,
   addContact,
   fetchContact,
   updateContact,
   deleteContact,
+  updateWebhookUrl,
+  upgradeToPartner,
   fetchReferral,
   withdrawEarning,
 } = require("../Controllers/userControllers");
@@ -26,7 +30,7 @@ const router = express.Router();
 router.get("/", auth, userData);
 router.post("/login", login);
 router.post("/register", register);
-router.route("/:id").patch(auth, updateUser).delete(auth, deleteUser);
+// router.get("/generateAcc", auth, generateVpay);
 router
   .post("/contact", auth, addContact)
   .get("/contact", auth, fetchContact)
@@ -34,6 +38,7 @@ router
   .delete("/contact/:contactId", auth, deleteContact);
 router.get("/referral", auth, fetchReferral);
 router.post("/withdrawEarning", auth, withdrawEarning);
+router.route("/user/:id").patch(auth, updateUser).delete(auth, deleteUser);
 router.post("/requestPasswordReset", requestPasswordReset);
 router.post("/resetpassword", resetPassword);
 router.post("/requestPinReset", auth, requestPinReset);
@@ -42,5 +47,7 @@ router.post("/istokenValid", validateToken);
 router.post("/transferFund", auth, transferFund);
 router.post("/changePassword", auth, changePassword);
 router.get("/validateUser/:userName", auth, validateUser);
+router.post("/updateWebhook", auth, updateWebhookUrl);
+router.post("/upgradeToPartner", auth, upgradeToPartner);
 
 module.exports = router;

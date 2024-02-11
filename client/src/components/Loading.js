@@ -1,20 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useGlobalContext } from "../context/UserContext";
 function Loading() {
   const { isLoading } = useGlobalContext();
-  // const [netWorkError, setNetworkError] = useState(false);
-  // setTimeout(() => setNetworkError(true), [10000]);
+  const [netWorkError, setNetworkError] = useState(false);
+  setTimeout(() => setNetworkError(true), [10000]);
   return (
     <Container isLoading={isLoading}>
       <div>
         <p className="loading__text">
-          {/* {loadingText
-            ? `${loadingText}...`
-            : "Transaction in progress, please Wait..."} */}
-          Transaction in progress, please Wait...
-          <br />
-          {"Poor network connection"}
+          Transaction in progress, please Wait... <br />
+          {netWorkError && "Poor network connection"}
         </p>
       </div>
       <div className="loading"></div>

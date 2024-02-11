@@ -3,7 +3,7 @@ import { FaHome, FaLightbulb } from "react-icons/fa";
 import { GiNetworkBars } from "react-icons/gi";
 import { BiCreditCard, BiReceipt } from "react-icons/bi";
 import { RiSettings5Fill, RiRefund2Fill } from "react-icons/ri";
-import { BsFillPersonFill } from "react-icons/bs";
+import { BsFillPersonFill, BsPeopleFill } from "react-icons/bs";
 import { FiPhoneCall } from "react-icons/fi";
 
 export const sideBarButton = [
@@ -22,33 +22,38 @@ export const sideBarButton = [
     url: "/profile/buyairtime",
     icon: <FiPhoneCall />,
   },
-  {
-    name: "Fund wallet",
-    url: "/profile/fundWallet",
-    icon: <BiCreditCard />,
-  },
 
+  // {
+  //   name: "Fund wallet(ATM CARD OR TRANSFER)",
+  //   url: "/profile/fundWallet",
+  //   icon: <BiCreditCard />,
+  // },
+  // {
+  //   name: "Fund wallet(ATM CARD OR TRANSFER)",
+  //   url: "/profile/fundwallet_flutterwave",
+  //   icon: <BiCreditCard />,
+  // },
   {
     name: "Electricity Payment ",
     url: "/profile/electricity",
     icon: <FaLightbulb />,
   },
 
-  // {
-  //   name: "TV subscriptions",
-  //   url: "/profile/tv",
-  //   icon: <FiMonitor />,
-  // },
+  {
+    name: "My contacts",
+    url: "/profile/contacts",
+    icon: <BsPeopleFill />,
+  },
   {
     name: "Transactions",
     url: "/profile/transactions",
     icon: <BiReceipt />,
   },
-  {
-    name: "Earnings",
-    url: "/profile/earnings",
-    icon: <BiReceipt />,
-  },
+  // {
+  //   name: "Earnings",
+  //   url: "/profile/earnings",
+  //   icon: <BiReceipt />,
+  // },
 
   {
     name: "Account",
@@ -68,7 +73,7 @@ export const adminSideBarButton = [
     icon: <BiCreditCard />,
   },
   {
-    name: "Transfer to other User",
+    name: "Transfer ",
     url: "/profile/transfer",
     icon: <RiRefund2Fill />,
   },
@@ -83,10 +88,26 @@ export const adminSideBarButton = [
     url: "/admin/users",
     icon: <BsFillPersonFill />,
   },
-
+  {
+    name: "Fund wallet(COUPON)",
+    url: "/profile/fundWallet/coupon",
+    icon: <BiCreditCard />,
+  },
   {
     name: "generate Coupon",
     url: "/admin/generateCoupon",
     icon: <RiSettings5Fill />,
+  },
+];
+export const agentSideBarButton = [
+  {
+    name: "my users",
+    url: "/admin/users",
+    icon: <BsFillPersonFill />,
+  },
+  {
+    name: "Update",
+    url: "/profile/updatePrice",
+    icon: <BiCreditCard />,
   },
 ];

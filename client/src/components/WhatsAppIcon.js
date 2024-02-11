@@ -4,7 +4,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppIcon = () => {
   const whatsAppLink = () => {
-    window.location.href = "https://wa.link/jk00z5";
+    window.location.href = "https://wa.link/32w0wa";
   };
   return (
     <Container onClick={whatsAppLink}>
@@ -22,7 +22,7 @@ const Container = styled.div`
   right: 1.5rem;
   z-index: 25;
   div {
-    background-color: green;
+    background-color: #25d366;
     display: flex;
     opacity: 0.7;
     margin: auto;

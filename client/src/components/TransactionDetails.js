@@ -1,7 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
 import { useGlobalContext } from "../context/UserContext";
-import { FaCopy, FaTimes } from "react-icons/fa";
+import { FaCopy, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
 import { TfiReload } from "react-icons/tfi";
 import { RiRefund2Fill } from "react-icons/ri";
 import moment from "moment";
@@ -10,11 +9,15 @@ import { useNavigate } from "react-router-dom";
 import stamp from "../images/stamp.png";
 function TransactionDetails({ close, details }) {
   const navigate = useNavigate();
-  const { isAdmin, refund, handleChange, isAgent } = useGlobalContext();
+  const { isAdmin, refund, handleChange, isAgent, reQueryWithdrawal } =
+    useGlobalContext();
   const handleRefund = (id) => {
     refund(id);
     close();
   };
+  const [isSharing, setIsSharing] = useState(false);
+  const toggleShare = () => setIsSharing(!isSharing);
+
   const buyAgain = (number) => {
     handleChange({ name: "phoneNumber", value: number });
     navigate("/profile/buydata");
@@ -32,6 +35,7 @@ function TransactionDetails({ close, details }) {
     paymentLink,
     trans_UserName,
     apiResponse,
+    apiResponseId,
   } = details;
   let date = moment(createdAt);
   date = date.format("llll");
@@ -58,15 +62,15 @@ function TransactionDetails({ close, details }) {
     },
     {
       name: "Old balance",
-      value: balance_Before.toFixed(2),
+      value: isSharing ? "" : balance_Before.toFixed(2),
     },
     {
       name: "New balance",
-      value: balance_After.toFixed(2),
+      value: isSharing ? "" : balance_After.toFixed(2),
     },
     {
       name: "User",
-      value: trans_UserName,
+      value: isSharing ? "" : trans_UserName,
     },
   ];
   const isBalanceIncrease = balance_After > balance_Before;
@@ -75,22 +79,36 @@ function TransactionDetails({ close, details }) {
     toast.success("Copied");
   };
   return (
-    <Container>
-      <TransactionDetailsContainer isBalanceIncrease={isBalanceIncrease}>
-        <div className="absolute max-w-xs top-20 left-20 opacity-40">
+    <div className=" bg-black/50 flex m-auto h-full fixed left-0 right-0 top-0 bottom-0 z-10">
+      <div
+        className="relative  m-auto bg-white p-4 rounded-md w-[80%] max-w-[400px] text-center border-black border ]"
+        isBalanceIncrease={isBalanceIncrease}
+      >
+        <div className="absolute max-w-xs bottom-[20%] left-0 opacity-10 z-10">
           <img src={stamp} alt="" />
         </div>
-        <button className="close__btn btn btn-danger" onClick={close}>
+        <button className=" btn btn-danger absolute right-4" onClick={close}>
           X
         </button>
-        <h4>Transaction details</h4>
-        <span
-          className={`font-extrabold text-3xl ${
-            isBalanceIncrease ? "text-green-700" : "text-red-500"
-          }`}
-        >
-          ₦ {isBalanceIncrease ? "+" : "-"} {trans_amount} <br />
-        </span>{" "}
+        <h4 className="underline title">Transaction details</h4>
+        {!isSharing ? (
+          <span
+            className={`font-extrabold text-3xl ${
+              isBalanceIncrease ? "text-green-700" : "text-red-500"
+            }`}
+          >
+            {!isSharing && `₦ ${isBalanceIncrease ? "+" : "-"} ${trans_amount}`}
+            <br />
+          </span>
+        ) : (
+          <>
+            <span className="text-green-600 font-extrabold capitalize text-lg ">
+              {" "}
+              Thanks for your patronage
+            </span>{" "}
+            <br />
+          </>
+        )}
         <span
           className={`capitalize font-bold ${
             trans_Status === "success" ? "text-green-500" : "text-red-500"
@@ -112,92 +130,57 @@ function TransactionDetails({ close, details }) {
             </div>
           );
         })}
-        {trans_Type === "data" && (
-          <button className="btn" onClick={() => buyAgain(phone_number)}>
-            <TfiReload /> Buy again
-          </button>
-        )}
-        <button className="btn btn-danger" onClick={close}>
-          <FaTimes /> close
-        </button>
-        {paymentLink && (
-          <button
-            className="btn"
-            onClick={() => (window.location.href = paymentLink)}
-          >
-            Continue payment
-          </button>
-        )}
-        {(isAdmin || isAgent) &&
-          trans_Status !== "refunded" &&
-          trans_Status !== "failed" &&
-          trans_Type !== "transfer" &&
-          trans_Type !== "wallet" &&
-          trans_Type !== "refund" && (
-            <button className="btn" onClick={() => handleRefund(_id)}>
-              <RiRefund2Fill /> Refund
+        <div className="flex  justify-center space-x-4  flex-wrap">
+          {trans_Type === "data" && (
+            <button className="btn" onClick={() => buyAgain(phone_number)}>
+              <TfiReload /> Buy again
             </button>
           )}
-      </TransactionDetailsContainer>
-    </Container>
+          {(isAdmin || isAgent) &&
+            trans_Status === "pending" &&
+            trans_Type === "wallet" && (
+              <button
+                className="btn"
+                onClick={() => {
+                  reQueryWithdrawal(apiResponseId || _id);
+                  close();
+                }}
+              >
+                check status
+              </button>
+            )}
+
+          <button className="btn " onClick={toggleShare}>
+            {isSharing ? <FaEyeSlash /> : <FaEye />} share
+          </button>
+          {paymentLink && (
+            <button
+              className="btn"
+              onClick={() => (window.location.href = paymentLink)}
+            >
+              Continue payment
+            </button>
+          )}
+          {(isAdmin || isAgent) &&
+            trans_Status !== "refunded" &&
+            trans_Status !== "failed" &&
+            trans_Type !== "transfer" &&
+            trans_Type !== "wallet" &&
+            trans_Type !== "refund" && (
+              <button
+                className="btn btn-block mt-2"
+                onClick={() => handleRefund(_id)}
+              >
+                <RiRefund2Fill /> Refund
+              </button>
+            )}
+          <button className="btn btn-danger btn-block mt-2" onClick={close}>
+            <FaTimes /> close
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default TransactionDetails;
-const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-  cursor: pointer;
-  display: flex;
-`;
-const TransactionDetailsContainer = styled.div`
-  margin: auto;
-  background-color: var(--grey-100);
-  max-height: 80vh;
-  max-width: 400px;
-  width: 80%;
-  height: fit-content;
-  padding: 1rem;
-  border-radius: var(--borderRadius);
-  transition: var(--transition);
-  border: 2px solid var(--primary-500);
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  text-align: center;
-  position: relative;
-  .close__btn {
-    position: absolute;
-    right: 1rem;
-  }
-  .transaction__amount {
-    font-weight: 900;
-    font-size: 2rem;
-    /* color: ${({ isBalanceIncrease }) =>
-      isBalanceIncrease ? "green" : "red"}; */
-  }
-  .trans__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-  }
-  .trans__name {
-    text-transform: uppercase;
-    font-weight: 900;
-    min-width: fit-content;
-  }
-
-  svg {
-    font-size: x-large;
-  }
-  button {
-    margin: auto;
-    margin-right: 0.5rem;
-  }
-`;

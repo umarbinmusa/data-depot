@@ -1,6 +1,11 @@
 const axios = require("axios");
 
 const BUYDATA = async ({ network, mobile_number, plan }) => {
+  // return {
+  //   status: true,
+  //   msg: "Data Purchase successful",
+  //   data: {},
+  // };
   try {
     const BuyDataResponse = await axios.post(
       `${process.env.DATARELOADED_API}/buy/data`,

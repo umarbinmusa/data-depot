@@ -1,47 +1,48 @@
 import React from "react";
 import styled from "styled-components";
-import { FaTimes } from "react-icons/fa";
+import { RiCloseCircleFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import { useGlobalContext } from "../context/UserContext";
+import { FaTimes } from "react-icons/fa";
 
 const SmallNav = () => {
   const { toggleNav, isNavOpen } = useGlobalContext();
   const nav = [
     { name: "home", path: "/" },
     { name: "Login", path: "/login" },
-    { name: "register ", path: "/register" },
-    { name: "price list", path: "/pricelist" },
+    { name: "register an account", path: "/register" },
+    { name: "our services", path: "/services" },
+    { name: "price list", path: "/priceList" },
   ];
   return (
     <Container isNavOpen={isNavOpen}>
-      <div className="my_nav__container  bg-white">
-        <section className="flex justify-between items-center w-[100%]">
-          <div className="logo img">
-            <img src="./assets/logo.png" alt="" />
-          </div>
-          <div
-            className="bg-red-500 rounded-full p-2 text-white grid item-center text-center"
-            onClick={() => toggleNav()}
-          >
-            <FaTimes className="pl-1" />
-          </div>
-        </section>
-        <div className="flex flex-col m-auto ">
+      <div className="my_nav__container">
+        <div className="logo">
+          <img src="./assets/logo.png" alt="" />
+        </div>
+        <div
+          className="absolute text-red-500 text-3xl top-4 right-8"
+          onClick={() => toggleNav()}
+        >
+          <FaTimes />
+        </div>
+        <div className="flex flex-col">
           {nav.map((e, index) => {
             return (
               <NavLink
                 to={e.path}
                 key={index}
                 onClick={toggleNav}
-                className={({ isActive }) =>
-                  isActive ? "nav__btn active " : "nav__btn"
-                }
+                className={({
+                  isActive,
+                }) => ` p-4 capitalize hover:border-b-2 hover:shadow-md hover:border-l-red-500 hover:border-l rounded-md
+                  ${isActive ? " active" : "nav__btn"}`}
               >
                 {e.name}
               </NavLink>
             );
           })}
-        </div>{" "}
+        </div>
       </div>
     </Container>
   );
@@ -65,8 +66,17 @@ const Container = styled.div`
     padding: 0.5rem 1rem;
     background-color: var(--white);
     border-radius: 1rem;
+    position: relative;
   }
-
+  .icon {
+    color: var(--red-dark);
+    svg {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2rem;
+    }
+  }
   .nav__links {
     display: flex;
     flex-direction: column;
@@ -85,15 +95,7 @@ const Container = styled.div`
   }
 
   .active {
-    border-bottom: 2px solid var(--primary-300);
-  }
-  .nav__btn {
-    padding: 0.4rem 0.2rem;
-    text-transform: capitalize;
-
-    &:hover {
-      background: var(--primary-100);
-      border-radius: 5px;
-    }
+    background-color: var(--primary-500);
+    color: var(--grey-100);
   }
 `;

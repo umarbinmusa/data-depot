@@ -23,7 +23,7 @@ function EachTransaction(props) {
             <tr>
               <th>Network</th>
               <th>Status</th>
-              {isAdmin && <th>Profit</th>}
+              {(isAdmin || isAgent) && <th>Profit</th>}
               {(isAdmin || isAgent) && <th>User</th>}
               <th>Amount</th>
               <th>Number</th>

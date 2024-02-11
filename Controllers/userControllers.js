@@ -10,45 +10,32 @@ const User = require("../Models/usersModel");
 const Data = require("../Models/dataModel");
 const Transaction = require("../Models/transactionModel");
 const Token = require("../Models/tokenModel");
+const Contact = require("../Models/contactModel");
 const cabletvModel = require("../Models/cabletvModel");
+const Referral = require("../Models/referralModel");
 // UTILS
 const newReferral = require("../Utils/newReferral");
 const sendEmail = require("../Utils/sendMail");
-// const generateAccountNumber = require("../Utils/generateAccountNumber");
+const generateAccountNumber = require("../Utils/generateAccountNumber");
+const generateReceipt = require("./generateReceipt");
 
 // OTHERS
 const { cableName } = require("../API_DATA/cableName");
 const { disco } = require("../API_DATA/disco");
 const { network } = require("../API_DATA/network");
 const { TRANSFER_RECEIPT, BONUS_RECEIPT } = require("./TransactionReceipt");
-const Contact = require("../Models/contactModel");
-const Referral = require("../Models/referralModel");
+const { MTN_CG, MTN_SME } = require("../API_DATA/newData");
 // const generateVpayAcc = require("../Utils/generateVpayAccount");
-const generateAcc = require("../Utils/account");
+const generateAcc = require("../Utils/accountNumbers");
 const { addReferral } = require("../Utils/referralBonus");
-const generateReceipt = require("./generateReceipt");
 
 const register = async (req, res) => {
-  let {
-    email,
-    password,
-    passwordCheck,
-    userName,
-    referredBy,
-    phoneNumber,
-    state,
-  } = req.body;
+  let { email, password, passwordCheck, userName, referredBy, phoneNumber } =
+    req.body;
 
   // validate
 
-  if (
-    !email ||
-    !password ||
-    !passwordCheck ||
-    !userName ||
-    !phoneNumber ||
-    !state
-  ) {
+  if (!email || !password || !passwordCheck || !userName || !phoneNumber) {
     return res.status(400).json({ msg: "Not all fields have been entered." });
   }
   if (password.length < 5)
@@ -73,11 +60,9 @@ const register = async (req, res) => {
   try {
     await User.create({ ...req.body });
     // generate account number
-    // await generateAccountNumber({ userName, email });
     await generateAcc({ userName, email });
     const user = await User.findOne({ email });
     const token = user.createJWT();
-
     const allDataList = await Data.find();
     const MTN_SME_PRICE = allDataList
       .filter((e) => e.plan_network === "MTN")
@@ -136,7 +121,6 @@ const register = async (req, res) => {
     });
     // if (referredBy) newReferral(req.body);
     if (referredBy) {
-      console.log("referred by someone");
       addReferral({ userName, sponsorId: referredBy });
     }
 
@@ -161,9 +145,11 @@ const login = async (req, res) => {
   // generate account number
   if (user.accountNumbers.length < 1)
     await generateAcc({ userName, email: user.email });
+
   const token = user.createJWT();
   const isReseller = user.userType === "reseller";
   const isApiUser = user.userType === "api user";
+
   const userTransaction = await Transaction.find({ trans_By: user._id })
     .limit(100)
     .sort("-createdAt");
@@ -263,86 +249,7 @@ const login = async (req, res) => {
     },
   });
 };
-//
-const fetchReferral = async (req, res) => {
-  const { userId } = req.user;
-  const { page } = req.query;
-  try {
-    // const
-    //   let result = Referral.find(queryObject);
-    console.log(userId);
-    const { userName, earningBalance } = await User.findOne({ _id: userId });
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 20;
-    const skip = (page - 1) * limit;
-    const referralList = await Referral.find({ referredBy: userName })
-      .skip(skip)
-      .limit(limit);
-    const totalReferred = await Referral.find({
-      referredBy: userName,
-    }).countDocuments();
-    // console.log(referralList);
-    let totalEarned = referralList.reduce((acc, curr) => {
-      return (acc += curr.amountEarned);
-    }, 0);
 
-    res.status(200).json({
-      msg: "fetched",
-      referralList,
-      earningBalance,
-      totalEarned,
-      totalReferred,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-const withdrawEarning = async (req, res) => {
-  const { userId } = req.user;
-  try {
-    const { balance, earningBalance, userName } = await User.findOne({
-      _id: userId,
-    });
-    // check if the user reach the minimum withdrawal
-    if (earningBalance < 100)
-      return res.status(400).json({ msg: "Minimum withdrawal is ₦100 " });
-    //check if he has sufficient amount
-    if (earningBalance < earningBalance)
-      return res
-        .status(400)
-        .json({ msg: "Insufficient balance for the operation" });
-    //deduct from earning balance
-    await User.updateOne(
-      { _id: userId },
-      { $inc: { earningBalance: -earningBalance } }
-    );
-    // and add to main balance
-    await User.updateOne(
-      { _id: userId },
-      { $inc: { balance: earningBalance } }
-    );
-    //create a transaction for the transfer
-    await generateReceipt({
-      transactionId: uuid(),
-      planNetwork: "withdrawal",
-      planName: `transfer of ₦${earningBalance} to main balance`,
-      phoneNumber: userName,
-      status: "success",
-      amountToCharge: earningBalance,
-      balance,
-      userId,
-      userName: userName,
-      type: "earning",
-      increased: true,
-    });
-    //respond to the request
-    res.status(200).json({ msg: "withdrawal successful" });
-  } catch (error) {
-    // respond to the request
-    console.log(error);
-    res.status(500).json({ msg: "Something went wrong" });
-  }
-};
 const userData = async (req, res) => {
   // return details of the user and purchase objects
   const { userId, userType } = req.user;
@@ -814,7 +721,8 @@ const validateUser = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-}; // Contacts controller
+};
+// Contacts controller
 
 const fetchContact = async (req, res) => {
   const { userId } = req.user;
@@ -896,6 +804,188 @@ const deleteContact = async (req, res) => {
     res.status(500).json({ msg: "something went wrong" });
   }
 };
+const updateWebhookUrl = async (req, res) => {
+  const { webhookUrl } = req.body;
+  console.log(webhookUrl);
+  const startWithHttps = webhookUrl.startsWith("https://");
+  if (!startWithHttps)
+    return res.status(400).json({ msg: "must start with https://" });
+  try {
+    await User.updateOne({ _id: req.user.userId }, { $set: { webhookUrl } });
+    return res.status(200).json({ msg: "webhook updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
+const fetchReferral = async (req, res) => {
+  const { userId } = req.user;
+  const { page } = req.query;
+  try {
+    // const
+    //   let result = Referral.find(queryObject);
+    console.log(userId);
+    const { userName, earningBalance } = await User.findOne({ _id: userId });
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+    const referralList = await Referral.find({ referredBy: userName })
+      .skip(skip)
+      .limit(limit);
+
+    const totalReferred = await Referral.find({
+      referredBy: userName,
+    }).countDocuments();
+    // console.log(referralList);
+    let totalEarned = referralList.reduce((acc, curr) => {
+      return (acc += curr.amountEarned);
+    }, 0);
+
+    res.status(200).json({
+      msg: "fetched",
+      referralList: referralList.reverse(),
+      earningBalance,
+      totalEarned,
+      totalReferred,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const withdrawEarning = async (req, res) => {
+  const { userId } = req.user;
+  try {
+    const {
+      balance,
+      earningBalance,
+      userName,
+      userType,
+      withdrawalDetails,
+      isPartner,
+    } = await User.findOne({
+      _id: userId,
+    });
+    let amountToWithdraw = earningBalance;
+
+    // check if the user reach the minimum withdrawal
+    if (!earningBalance || earningBalance < 1000)
+      return res.status(400).json({ msg: "Minimum withdrawal is ₦1000 " });
+    //check if he has sufficient amount
+    if (amountToWithdraw > earningBalance)
+      return res
+        .status(400)
+        .json({ msg: "Insufficient balance for this operation" });
+    //deduct from earning balance
+    await User.updateOne(
+      { _id: userId },
+      { $inc: { earningBalance: -amountToWithdraw } }
+    );
+    if (isPartner) {
+      // Remove 15% charges
+      amountToWithdraw = amountToWithdraw - amountToWithdraw * 0.15;
+      // const {acc}= req.body;
+      await generateReceipt({
+        transactionId: uuid(),
+        planNetwork: "withdrawal",
+        planName: `withdrawal request of ₦${earningBalance} `,
+        phoneNumber: userName,
+        status: "pending",
+        amountToCharge: amountToWithdraw,
+        balance,
+        userId,
+        userName: userName,
+        type: "earning",
+        increased: "none",
+        response: `withdrawal request of ₦${earningBalance} to ${withdrawalDetails.nameOnAccount} ${withdrawalDetails.bank} ${withdrawalDetails.accountNumber} `,
+      });
+      return res
+        .status(200)
+        .json({ msg: "withdrawal is pending for admin's approval" });
+    }
+    // and add to main balance
+    await User.updateOne(
+      { _id: userId },
+      { $inc: { balance: amountToWithdraw } }
+    );
+    //create a transaction for the transfer
+    await generateReceipt({
+      transactionId: uuid(),
+      planNetwork: "withdrawal",
+      planName: `transfer of ₦${earningBalance} to main balance`,
+      phoneNumber: userName,
+      status: "success",
+      amountToCharge: amountToWithdraw,
+      balance,
+      userId,
+      userName: userName,
+      type: "earning",
+      increased: true,
+    });
+    //respond to the request
+    res.status(200).json({ msg: "withdrawal successful" });
+  } catch (error) {
+    // respond to the request
+    console.log(error);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+};
+const upgradeToPartner = async (req, res) => {
+  const { userId } = req.user;
+  const { bank, accountNumber, nameOnAccount } = req.body;
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) return res.status(400).json({ msg: "user does not exist" });
+    //check if user has already upgraded
+    if (user.isPartner)
+      return res.status(400).json({ msg: "You are already a partner" });
+    if (user.balance < 1000)
+      return res
+        .status(400)
+        .json({ msg: "Insufficient balance for this operation" });
+    //upgrade user to partner and deduct the amount
+    await User.updateOne(
+      { _id: userId },
+      {
+        $set: {
+          isPartner: true,
+          withdrawalDetails: {
+            bank,
+            accountNumber,
+            nameOnAccount,
+          },
+        },
+        $inc: { balance: -1000 },
+      }
+    );
+    //generate receipt
+    await generateReceipt({
+      transactionId: uuid(),
+      planNetwork: `upgrade to partnership package`,
+      planName: `₦ ${1000}`,
+      phoneNumber: user.userName,
+      status: "success",
+      amountToCharge: 1000,
+      balance: user.balance,
+      userId: user._id,
+      userName: user.userName,
+      type: "earning",
+      wavedAmount: 1000, //profit decreased
+    });
+    //send email
+    sendEmail(
+      user.email,
+      "Thanks for becoming a partner with us",
+      { name: user.fullName || user.userName, link: process.env.FRONTEND_URL },
+      "../templates/upgradeSuccess.handlebars"
+    );
+    //return response
+    res
+      .status(200)
+      .json({ msg: "You have successfully upgraded to a partner" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "An error occur please contact an Admin" });
+  }
+};
 module.exports = {
   register,
   login,
@@ -910,10 +1000,12 @@ module.exports = {
   transferFund,
   changePassword,
   validateUser,
-  fetchContact,
   addContact,
-  updateContact,
   deleteContact,
+  fetchContact,
+  updateContact,
+  updateWebhookUrl,
   fetchReferral,
+  upgradeToPartner,
   withdrawEarning,
 };

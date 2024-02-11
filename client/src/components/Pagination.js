@@ -8,7 +8,9 @@ const Pagination = () => {
     useGlobalContext();
 
   const pages = Array.from(
-    { length: isAdmin && numOfPages > 10 ? 10 : numOfPages },
+    {
+      length: numOfPages > 15 && !isAdmin ? 15 : 20,
+    },
     (_, index) => {
       return index + 1;
     }
@@ -28,7 +30,7 @@ const Pagination = () => {
     changePage(newPage);
   };
   return (
-    <Wrapper>
+    <Wrapper className="w-[95%] md:max-w-[80%]">
       <button
         disabled={filteringTransactions}
         className="prev-btn btn"
@@ -75,6 +77,7 @@ const Wrapper = styled.section`
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
+  /* max-width: 80%; */
   .prev-btn,
   .next-btn {
     color: var(--primary-500);

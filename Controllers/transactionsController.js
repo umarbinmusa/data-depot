@@ -64,7 +64,7 @@ const searchTransaction = async (req, res) => {
     query.trans_By = userId;
   }
   // Calculating total GB purchased
-  const today = await Transactions.find(query);
+  const today = await Transaction.find(query);
   const totalSales = today.reduce((acc, cur) => {
     acc += cur.trans_volume_ratio;
     return acc;
@@ -75,14 +75,65 @@ const searchTransaction = async (req, res) => {
     acc += currentProfit;
     return acc;
   }, 0);
+  const calculateStat = (network, type) => {
+    let result = {
+      network: `${network} ${type}`,
+      profit: 0,
+      total_volume_sold: 0,
+    };
+    let filtered = today.filter(
+      (e) =>
+        e.trans_Type &&
+        e.trans_Network.split(" ")[0] === network &&
+        e.trans_Network.split(" ")[1] === type
+    );
+    // profit
+    result.profit = filtered.reduce((acc, cur) => {
+      const currentProfit = isNaN(cur.trans_profit) ? 0 : cur.trans_profit;
+      acc += currentProfit;
+      return acc;
+    }, 0);
+    // total sales
+    result.total_volume_sold = filtered.reduce((acc, cur) => {
+      acc += cur.trans_volume_ratio;
+      return acc;
+    }, 0);
+    return result;
+  };
+  let mtnSMESales = calculateStat("MTN", "SME");
+  let mtnCGSales = calculateStat("MTN", "CG");
+  let mtnCOUPONSales = calculateStat("MTN", "COUPON");
+  let gloSMESales = calculateStat("GLO", "SME");
+  let gloCGSales = calculateStat("GLO", "CG");
+  let AirtelSMESales = calculateStat("AIRTEL", "SME");
+  let AirtelCGSales = calculateStat("AIRTEL", "CG");
+  let NmobileCGSales = calculateStat("9MOBILE", "CG");
+  let NmobileSMESales = calculateStat("9MOBILE", "SME");
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 20;
   const skip = (page - 1) * limit;
   result = await result.skip(skip).limit(limit);
   let noOfTransaction = await Transaction.countDocuments(queryObject);
   const totalPages = Math.ceil(noOfTransaction / limit);
-  res
-    .status(200)
-    .json({ transactions: result, totalPages, totalSales, totalProfit });
+  res.status(200).json({
+    stat:
+      isAdmin || isAgent
+        ? [
+            mtnSMESales,
+            mtnCGSales,
+            mtnCOUPONSales,
+            gloSMESales,
+            gloCGSales,
+            AirtelCGSales,
+            AirtelSMESales,
+            NmobileCGSales,
+            NmobileSMESales,
+          ]
+        : [],
+    transactions: result,
+    totalPages,
+    totalSales,
+    totalProfit,
+  });
 };
 module.exports = searchTransaction;

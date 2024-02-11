@@ -11,6 +11,7 @@ const dataSchema = new mongoose.Schema({
   my_price: String,
   resellerPrice: String,
   apiPrice: String,
+  partnerPrice: String,
   volumeRatio: Number,
 });
 module.exports = mongoose.model("data", dataSchema);
