@@ -26,7 +26,7 @@ function Login() {
       <Wrapper>
         <img
           src="./logo.png"
-          alt="SPPDataDepot"
+          alt=""
           height="50rem"
           width="90rem"
           className="logo"

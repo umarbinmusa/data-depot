@@ -1,228 +1,285 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { IoMdWifi } from "react-icons/io";
-import { FiPhoneCall, FiMonitor } from "react-icons/fi";
-// import { GiCutDiamond } from "react-icons/gi";
-// import { RiCoinsLine, RiCoinFill } from "react-icons/ri";
-import { FaClipboardList, FaUserAlt, FaLightbulb } from "react-icons/fa";
-import SmallNav from "../components/SmallNav";
+import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import { FaClipboardList, FaUserAlt, FaTimes } from "react-icons/fa";
 import LandingNav from "../components/LandingNav";
 import { useGlobalContext } from "../context/UserContext";
+import airtimeSvg from "../images/airtime.svg";
+import dataSvg from "../images/data.svg";
+import electricitySvg from "../images/electricity.svg";
 const Landing = () => {
-  const { isNavOpen, user, token } = useGlobalContext();
+  const { user, token } = useGlobalContext();
   const navigate = useNavigate();
+
+  const services = [
+    {
+      name: "airtime",
+      icon: airtimeSvg,
+      desc: "With Our Fast And Easy Service, Your Airtime Will Be Brand New!!!",
+    },
+    {
+      name: "data",
+      icon: dataSvg,
+      desc: "Want To Help Your Friends And Family Connected? With Our Data Bundle Service, You Can Do Just That!!!",
+    },
+    {
+      name: "electricity token",
+      icon: electricitySvg,
+      desc: "With Our Easy-To-Use Service, You Can Top-Up Your Electricity Account Without The Hassle Of Going To A Store Or Waiting Inline",
+    },
+  ];
+  const faqData = [
+    {
+      title: "What is a VTU website?",
+      desc: "A VTU website allows you to sell prepaid virtual top-up (VTU) services such as airtime, data bundles, and bill payments for various networks and services.",
+      isActive: true,
+    },
+    {
+      title: "Benefits of using your website?",
+      desc: "Convenient, easy-to-use, competitive prices, wide product range, secure transactions, fast & efficient service.",
+      isActive: false,
+    },
+    {
+      title: "Do I need to register?",
+      desc: "No, browsing is free, but registration & account creation are required for purchases.",
+      isActive: false,
+    },
+    {
+      title: "Is registration free?",
+      desc: "Yes, registration is completely free.",
+      isActive: false,
+    },
+    {
+      title: "What payment methods do you accept?",
+      desc: "We accept debit/credit cards, bank transfers, and mobile money for your convenience.",
+      isActive: false,
+    },
+    {
+      title: "How do I create an account?",
+      desc: "Click the 'Register' button and follow the simple steps to create your account.",
+      isActive: false,
+    },
+    {
+      title: "How to top up my account balance?",
+      desc: "Top up your account balance using any of our supported payment methods.",
+      isActive: false,
+    },
+    {
+      title: "How to purchase data, airtime, or other VTU services?",
+      desc: "Browse and select the desired product/service, enter recipient details, choose payment method, and click 'Purchase'.",
+      isActive: false,
+    },
+    {
+      title: "Transaction processing time?",
+      desc: "Most transactions are processed within seconds, slight delays depending on payment method and network.",
+      isActive: false,
+    },
+    {
+      title: "What happens if my transaction fails?",
+      desc: "Contact our customer support for assistance. We will investigate and resolve the issue promptly. **We will also refund any failed transactions automatically.**",
+      isActive: false,
+    },
+    {
+      title: "Do you offer discounts or promotions?",
+      desc: "Yes, we regularly offer discounts and promotions. Check our website or social media pages for current offers.",
+      isActive: false,
+    },
+    {
+      title: "Can I become a reseller?",
+      desc: "Yes, we offer a reseller program where you can earn commissions by selling our products and services.",
+      isActive: false,
+    },
+    {
+      title: "Do you have an API?",
+      desc: "Yes, we offer an API to integrate our VTU services into your website or application.",
+      isActive: false,
+    },
+    {
+      title: "What data plans do you offer?",
+      desc: "We offer a wide range of data plans for various networks and devices.",
+      isActive: false,
+    },
+    {
+      title: "How to activate my data plan?",
+      desc: "Once purchased, your data plan will be automatically activated on the recipient's phone number.",
+      isActive: false,
+    },
+    {
+      title: "What airtime denominations are available?",
+      desc: "We offer airtime denominations for all major networks.",
+      isActive: false,
+    },
+    {
+      title: "How to top up someone's airtime?",
+      desc: "Enter recipient's phone number, choose desired airtime denomination, and select your preferred payment method.",
+      isActive: false,
+    },
+    {
+      title: "What VTU services do you offer?",
+      desc: "We offer a wide range of VTU services, including bill payments for electricity, cable TV, internet, and more.",
+      isActive: false,
+    },
+    {
+      title: "How to pay my bills using your website?",
+      desc: "Select desired bill payment service, enter your account details, choose payment amount, and select your preferred payment method.",
+      isActive: false,
+    },
+  ];
+  const links = [
+    { name: "home", link: "/" },
+    { name: "login", link: "/login" },
+    { name: "register", link: "/register" },
+    { name: "pricing", link: "/priceList" },
+  ];
+  const [faqs, setFaqs] = useState(faqData);
+  const handleFaqClick = (currentOpenIndex) => {
+    let newFaq = [];
+    const index = faqData.findIndex((item) => item.isActive === true);
+    if (index !== -1) {
+      faqData[index].isActive = false;
+      faqData[currentOpenIndex].isActive = true;
+    }
+    newFaq = faqData;
+    setFaqs(newFaq);
+  };
   return (
-    <Wrapper isNavOpen={isNavOpen}>
+    <div className="relative">
       <LandingNav />
-      <SmallNav />
       <section>
-        <div class="skewed"></div>
+        <div className="skewed"></div>
       </section>
-
-      <section className="hero  md:pt-30">
-        <div className="row container">
-          <div className="col">
-            <h1 className="title mt-8">
-              {" "}
-              {token ? `Hi ${user.userName}, ` : ""}Welcome to SPPDataDepot
-            </h1>
-            <p className="welcome">
-              A technology platform that offers solutions to digital needs at
-              best possible price without compromising quality.
-            </p>
-            <div className="hero__btn__container">
-              <button
-                className="login__btn btn"
-                onClick={() => navigate(`${token ? "/profile" : "/login"}`)}
-              >
-                <FaUserAlt />
-                {token ? "Dashboard" : "Login/Register"}
-              </button>
-              <button
-                className="price__btn btn"
-                onClick={() => navigate("/priceList")}
-              >
-                <FaClipboardList />
-                Price list
-              </button>
-            </div>
-          </div>
-          <div className="col">
-            <img src="./assets/phone.svg" alt="" />
+      <section className="mt-[80px] min-h-[60vh] m-auto md:min-h-[85vh]  max-w-[var(--max-width)]  flex flex-col md:flex-row md:items-stretch gap-4 w-10/12 h-full">
+        <div className="md:w-6/12 ">
+          <h1 className="font-extrabold text-transparent text-center md:text-6xl bg-clip-text bg-gradient-to-r from-[var(--primary-600)] to-[var(--primary-300)]">
+            {" "}
+            {token ? `Hi ${user.userName}, ` : ""}Welcome to anexData
+          </h1>
+          <p className="text-center text-3xl md:text-4xl">
+            A technology platform that offers solutions to digital needs at best
+            possible price without compromising quality.
+          </p>
+          <div className=" flex justify-center gap-4">
+            <button
+              className=" btn"
+              onClick={() => navigate(`${token ? "/profile" : "/login"}`)}
+            >
+              <FaUserAlt className="mr-2" />
+              {token ? "Dashboard" : "Login/Register"}
+            </button>
+            <button
+              className=" btn  btn-hipster"
+              onClick={() => navigate("/priceList")}
+            >
+              <FaClipboardList className="mr-2" />
+              Price list
+            </button>
           </div>
         </div>
-      </section>
-
-      <section className="services " id="services">
-        <h1 className="title">Our services</h1>
-        <p className="container ">
-          Below are what we offer to keep you and your loved ones connected
-        </p>
-        <div className="row container ">
-          <div className="services__offer col">
-            <div className="service">
-              <div className="icon">
-                <IoMdWifi className="icon" />
-              </div>
-              <div className="details">
-                <h1>Airtime VTU</h1>
-                <p>
-                  Start enjoying this verMaking an online recharge has become
-                  very easy and safe on DataReloaded.com
-                </p>
-              </div>
-            </div>
-            <div className="service">
-              <div className="icon">
-                <FiPhoneCall />
-              </div>
-              <div className="details">
-                <h1>Cheap Data Bundle</h1>
-                <p>
-                  Start enjoying this very low rates Data plan for your internet
-                  browsing databundle.
-                </p>
-              </div>
-            </div>
-            <div className="service">
-              <div className="icon">
-                <FiMonitor />
-              </div>
-              <div className="details">
-                <h1>CableTv Subscription</h1>
-                <p>
-                  Enjoy an instantly activated Cable Subscriptions (Gotv, DSTV
-                  and Startimes) on Datareloaded
-                </p>
-              </div>
-            </div>
-            <div className="service">
-              <div className="icon">
-                <FaLightbulb />
-              </div>
-              <div className="details">
-                <h1>Bills Payment</h1>
-                <p>
-                  Paying for your Electricity Bills is as easy as ABC on
-                  Datareloaded. Easy Process, Swift Payment with Receipt!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col ">
-            <img src="./assets/phone2.svg" alt="" />
-          </div>
+        <div className="col hidden md:block">
+          <img src="./assets/logo.png" alt="" />
+        </div>
+        <div className="col md:hidden mb-8 max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
+          <img src="./assets/mobile.png" alt="" />
         </div>
       </section>
-    </Wrapper>
+      <section className="text-center flex flex-col justify-center items-center">
+        <h2 className="title text-center underline"> services</h2>
+        <div className="md:flex max-w-[var(--max-width)] md:gap-5  md:justify-center w-[80%]  m-auto md:m-0 ">
+          {services.map((e) => {
+            return (
+              <div
+                key={e.name}
+                className=" border-t-2 border-t-purple-800 text-center mt-8 p-4 rounded-md shadow-md border "
+              >
+                <div className="max-w-[100px] m-auto">
+                  <img src={e.icon} alt="" className="img" />
+                </div>
+                <p className="font-bold capitalize">{e.name}</p>
+                <p>{e.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+      <section className="mt-10 max-w-[var(--max-width)] w-11/12 m-auto">
+        <h2 className="title text-center underline">FAQ</h2>
+        <div className="flex flex-col gap-4 ">
+          {faqs.map((e, index) => {
+            return (
+              <div
+                onClick={() => handleFaqClick(index)}
+                key={e.desc}
+                className=" border-2 rounded relative  p-3 "
+              >
+                {e.isActive ? (
+                  <IoIosArrowDropup className=" text-4xl absolute top-2 right-4" />
+                ) : (
+                  <IoIosArrowDropdown className="text-4xl absolute top-2 right-4" />
+                )}
+                <h4 className="font-bold text-[var(--primary-400)]">
+                  {e.title}
+                </h4>
+                {e.isActive && (
+                  <p className="text-center font-bold">{e.desc}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+      <section className="mt-10 bg-[var(--red-dark)] pb-2   text-white border items-center">
+        <div className="p-4  max-w-[1300px] m-auto w-11/12">
+          <div className=" flex justify-between gap-8 md:gap-0 items-center capitalize mb-4">
+            <div className="rounded-full hidden w-48 md:block">
+              <img src="./assets/logo.png" alt="" className="img" />
+            </div>
+            <div className="">
+              <ul className="underline">
+                {links.map((e, index) => {
+                  return (
+                    <li
+                      key={index}
+                      onClick={() => navigate(e.link)}
+                      className="p-2 text-lg cursor-pointer"
+                    >
+                      {e.name}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div className="">
+              <div className=" ">
+                <p className="uppercase text-blue-500">Office address</p>
+                <p>Ahmadu Bello University Zaria, Kaduna State.</p>
+              </div>
+              <div className=" ">
+                <p className="uppercase text-blue-500">phone number</p>
+                <p>08134345470</p>
+              </div>
+              <div className=" lowercase">
+                <p className="uppercase text-blue-500">Contact us</p>
+                <p>admin@anexdata.com.ng</p>
+                <p>Oyeyemijoshua997@gmail.com</p>
+              </div>
+            </div>
+          </div>
+          <p className="text-center capitalize">
+            All right reserved &copy; {new Date().getFullYear()} Designed &
+            developed by{" "}
+            <a
+              className="text-blue-500"
+              href="https://onisabi-portfolio.netlify.app/"
+              target="blank"
+            >
+              Oniboy
+            </a>
+          </p>
+        </div>
+      </section>{" "}
+    </div>
   );
 };
 
 export default Landing;
-const Wrapper = styled.div`
-  header {
-    background-color: var(--primary-500);
-    color: var(--white);
-    padding-top: 0.5rem;
-    position: fixed;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
-  .nav__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  svg {
-    font-size: large;
-    padding-right: 0.7rem;
-  }
-  .big__nav {
-    display: none;
-  }
-  .hero {
-    padding-top: 5rem;
-    h1 {
-      text-shadow: 1px 1px 2px black;
-      font-size: 2rem;
-    }
-  }
-  .welcome {
-    text-align: center;
-    font-weight: 500;
-    font-size: min(2vw + 1.2rem, 2.5rem);
-  }
-  .hero__btn__container {
-    margin-bottom: 2rem;
-    > button {
-      padding: 1.5em;
-    }
-    .price__btn {
-      background-color: var(--primary-400);
-    }
-  }
-  .services {
-    p {
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.3rem;
-    }
-  }
-  .service {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-  }
-  .icon > * {
-    font-size: 3rem;
-    padding: 1rem;
-  }
-
-  .details {
-    text-align: center;
-    opacity: 0.9;
-  }
-
-  .price__box {
-    box-shadow: var(--shadow-5);
-    padding: 1rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    border-radius: 2rem;
-  }
-  .price__title,
-  .nav__title {
-    font-size: 2rem !important;
-    opacity: 0.9;
-  }
-  .price__icon > * {
-    font-size: 3rem;
-  }
-  .prices > * {
-    font-weight: 900;
-  }
-  @media (min-width: 700px) {
-    .nav__title {
-      display: none;
-    }
-    .row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      justify-content: center;
-    }
-    .col {
-      width: 100%;
-    }
-    .service {
-      justify-content: space-between;
-    }
-    .details {
-      font-size: 1.2rem;
-    }
-  }
-`;
