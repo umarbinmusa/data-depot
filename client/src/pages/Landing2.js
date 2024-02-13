@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+// import styled from "styled-components";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+
 import { FaClipboardList, FaUserAlt, FaTimes } from "react-icons/fa";
+// import SmallNav from "../components/SmallNav";
 import LandingNav from "../components/LandingNav";
 import { useGlobalContext } from "../context/UserContext";
 import airtimeSvg from "../images/airtime.svg";
@@ -148,13 +151,13 @@ const Landing = () => {
       <section>
         <div className="skewed"></div>
       </section>
-      <section className="mt-[80px] min-h-[60vh] m-auto md:min-h-[85vh]  max-w-[var(--max-width)]  flex flex-col md:flex-row md:items-stretch gap-4 w-10/12 h-full">
+      <section className="mt-[80px] min-h-[60vh] m-auto md:min-h-[75vh]  max-w-[var(--max-width)]  flex flex-col md:flex-row md:items-stretch gap-4 w-10/12 h-full">
         <div className="md:w-6/12 ">
-          <h1 className="font-extrabold text-transparent text-center md:text-6xl bg-clip-text bg-gradient-to-r from-[var(--primary-600)] to-[var(--primary-300)]">
+          <h1 className="font-extrabold text-transparent text-center md:text-6xl bg-clip-text bg-gradient-to-r from-[var(--primary-500)] to-[var(--secondary-500)]">
             {" "}
-            {token ? `Hi ${user.userName}, ` : ""}Welcome to AFRICASUB
+            {token ? `Hi ${user.userName}, ` : ""}Welcome to trustedData
           </h1>
-          <p className="text-center text-3xl md:text-4xl">
+          <p className="text-center text-2xl md:text-3xl">
             A technology platform that offers solutions to digital needs at best
             possible price without compromising quality.
           </p>
@@ -175,11 +178,8 @@ const Landing = () => {
             </button>
           </div>
         </div>
-        <div className="col hidden md:block">
-          <img src="./assets/svg1.svg" alt="" />
-        </div>
-        <div className="col md:hidden mb-8 max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
-          <img src="./assets/mobil.png" alt="" />
+        <div className="">
+          <img src="./assets/phone.svg" alt="" />
         </div>
       </section>
       <section className="text-center flex flex-col justify-center items-center">
@@ -202,7 +202,9 @@ const Landing = () => {
         </div>
       </section>
       <section className="mt-10 max-w-[var(--max-width)] w-11/12 m-auto">
-        <h2 className="title text-center underline">FAQ</h2>
+        <h2 className="title text-center underline capitalize">
+          Frequently asked questions
+        </h2>
         <div className="flex flex-col gap-4 ">
           {faqs.map((e, index) => {
             return (
@@ -216,7 +218,7 @@ const Landing = () => {
                 ) : (
                   <IoIosArrowDropdown className="text-4xl absolute top-2 right-4" />
                 )}
-                <h4 className="font-bold text-[var(--primary-400)]">
+                <h4 className="font-bold text-[var(--secondary-500)]">
                   {e.title}
                 </h4>
                 {e.isActive && (
@@ -227,11 +229,11 @@ const Landing = () => {
           })}
         </div>
       </section>
-      <section className="mt-10 bg-[var(--primary-500)] pb-2   text-white border items-center">
-        <div className="p-4  max-w-[1300px] m-auto w-11/12">
+      <section className="mt-10 bg-black pb-2   text-white border items-center">
+        <div className="py-2  max-w-[1300px] m-auto w-11/12">
           <div className=" flex justify-between gap-8 md:gap-0 items-center capitalize mb-4">
             <div className="rounded-full hidden w-48 md:block">
-              //<img src="./assets/logo.png" alt="" className="img" />//
+              <img src="./assets/logo.png" alt="" className="img" />
             </div>
             <div className="">
               <ul className="underline">
@@ -252,16 +254,16 @@ const Landing = () => {
             <div className="">
               <div className=" ">
                 <p className="uppercase text-blue-500">Office address</p>
-                <p>New Jos Road Filin Mallawa.</p>
+                <p>No 30 Kajola Street Oke-Afo Ikirun, Osun State, Nigeria</p>
               </div>
               <div className=" ">
                 <p className="uppercase text-blue-500">phone number</p>
-                <p>08100812221</p>
+                <p>07064545941</p>
               </div>
               <div className=" lowercase">
                 <p className="uppercase text-blue-500">Contact us</p>
-                <p>admin@africasub.com</p>
-                <p>africa4sub@gmail.com</p>
+                <p>admin@trustedData.com.ng</p>
+                <p>lawalibraheemtunde@gmail.com</p>
               </div>
             </div>
           </div>
@@ -270,10 +272,10 @@ const Landing = () => {
             developed by{" "}
             <a
               className="text-blue-500"
-              href="https://my-react-tailwind.vercel.app/"
+              href="https://onisabi-portfolio.netlify.app/"
               target="blank"
             >
-              DEVSTACK ICT SOLUTIONS
+              Oniboy
             </a>
           </p>
         </div>

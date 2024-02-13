@@ -152,7 +152,7 @@ const Landing = () => {
         <div className="md:w-6/12 ">
           <h1 className="font-extrabold text-transparent text-center md:text-6xl bg-clip-text bg-gradient-to-r from-[var(--primary-600)] to-[var(--primary-300)]">
             {" "}
-            {token ? `Hi ${user.userName}, ` : ""}Welcome to anexData
+            {token ? `Hi ${user.userName}, ` : ""}Welcome to sppdatadepot
           </h1>
           <p className="text-center text-3xl md:text-4xl">
             A technology platform that offers solutions to digital needs at best
@@ -176,7 +176,7 @@ const Landing = () => {
           </div>
         </div>
         <div className="col hidden md:block">
-          <img src="./assets/logo.png" alt="" />
+          <img src="./assets/logo2.png" alt="" />
         </div>
         <div className="col md:hidden mb-8 max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
           <img src="./assets/mobile.png" alt="" />
@@ -227,11 +227,11 @@ const Landing = () => {
           })}
         </div>
       </section>
-      <section className="mt-10 bg-[var(--red-dark)] pb-2   text-white border items-center">
+      <section className="mt-10 bg-[var(--primary-400)] pb-2   text-white border items-center">
         <div className="p-4  max-w-[1300px] m-auto w-11/12">
           <div className=" flex justify-between gap-8 md:gap-0 items-center capitalize mb-4">
             <div className="rounded-full hidden w-48 md:block">
-              <img src="./assets/logo.png" alt="" className="img" />
+              <img src="./assets/logo2.png" alt="" className="img" />
             </div>
             <div className="">
               <ul className="underline">
@@ -252,16 +252,17 @@ const Landing = () => {
             <div className="">
               <div className=" ">
                 <p className="uppercase text-blue-500">Office address</p>
-                <p>Ahmadu Bello University Zaria, Kaduna State.</p>
+                <p> Zaria, Kaduna State.</p>
               </div>
               <div className=" ">
                 <p className="uppercase text-blue-500">phone number</p>
-                <p>08134345470</p>
+                <p>08032142321</p>
+                <p>08100812221</p>
               </div>
               <div className=" lowercase">
                 <p className="uppercase text-blue-500">Contact us</p>
-                <p>admin@anexdata.com.ng</p>
-                <p>Oyeyemijoshua997@gmail.com</p>
+                <p>support@sppdatadepot.com.ng</p>
+                <p>sppdatadepot@gmail.com</p>
               </div>
             </div>
           </div>

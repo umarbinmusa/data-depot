@@ -25,7 +25,7 @@ function Login() {
     <Container>
       <Wrapper>
         <img
-          src="./logo.png"
+          src="./assets/logo2.png"
           alt=""
           height="50rem"
           width="90rem"

@@ -48,8 +48,8 @@ export default function App() {
       {/* {isLoading && <Loading />} */}
       <WhatsAppIcon />
       <Routes>
-        {/* <Route exact path="/" element={<Landing />} /> */}
-        <Route exact path="/" element={<Landing2 />} />
+        <Route exact path="/" element={<Landing />} />
+        {/* <Route exact path="/" element={<Landing2 />} /> */}
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register">
           <Route index element={<Register />} />

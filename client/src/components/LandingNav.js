@@ -4,15 +4,10 @@ import { useGlobalContext } from "../context/UserContext";
 const LandingNav = () => {
   const { toggleNav } = useGlobalContext();
   return (
-    <header className="fixed left-0 right-0 top-0 z-20 bg-[var(--primary-500)] text-white flex justify-between  items-center px-3">
-      <div className="pt-4">
-        <h3 className="">AFRICASUB</h3>
-      </div>
-      <div onClick={() => toggleNav()} className="">
-        <TiThMenu className="text-4xl" />
-      </div>
-      {/* <div className="none">big nav</div> */}
-    </header>
+    <div className="bg-[var(--primary-500)] text-white fixed left-0 right-0 top-0 px-2 pt-2 flex justify-between z-50">
+      <h3>SPP Data Depot</h3>
+      <TiThMenu onClick={toggleNav} size={29} />
+    </div>
   );
 };
 
