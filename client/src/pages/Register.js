@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import logo from "../images/logo.png";
 import { FaHome, FaUserAlt } from "react-icons/fa";
 import { Container, Wrapper } from "./Login";
 import FormInput from "../components/FormInput";
 import { useGlobalContext } from "../context/UserContext";
 import { toast } from "react-toastify";
-import FormRowSelect from "../components/FormRowSelect";
 
 function Register() {
   const {
@@ -17,8 +17,6 @@ function Register() {
     userName,
     passwordCheck,
     isLoading,
-    selectedUserState,
-    userStateList,
   } = useGlobalContext();
   const { referralId } = useParams();
 
@@ -42,28 +40,27 @@ function Register() {
     <Container>
       <Wrapper>
         <img
-          src="./logo.png"
-          alt="SPPDataDepot"
+          src={logo}
+          alt="ShareDataHub"
           height="50rem"
-          width="90rem"
+          width="70rem"
           className="logo"
           onClick={() => {
             navigate("/");
           }}
-        />
+        />{" "}
         <button onClick={() => navigate("/")} className="home__btn btn">
           <FaHome />
         </button>
-
-        <h3 className="title">Register an account</h3>
-        <form onSubmit={handleSubmit} className="pl-4">
+        <h3 className="title">Register</h3>
+        <form onSubmit={handleSubmit} className="">
           <FormInput
             name="userName"
             value={userName}
-            placeholder="username or business name"
+            placeholder="username / business name"
             handleChange={handleInputChange}
             type="text"
-            labelText="username or business name"
+            labelText="username/business name"
           />
 
           <FormInput
@@ -87,7 +84,7 @@ function Register() {
           <FormInput
             value={password}
             name="password"
-            placeholder="*****"
+            placeholder="password"
             handleChange={handleInputChange}
             type="password"
             placeHolder="password"
@@ -96,21 +93,14 @@ function Register() {
           <FormInput
             value={passwordCheck}
             name="passwordCheck"
-            placeholder="*****"
+            placeholder="password"
             type="password"
             placeHolder="Re-enter password"
             handleChange={handleInputChange}
           />
-          <FormRowSelect
-            handleChange={handleInputChange}
-            labelText="which state are you from?"
-            list={userStateList}
-            name="selectedUserState"
-            value={selectedUserState}
-          />
 
           <button
-            className="btn mt-2"
+            className="btn"
             href="#top"
             type="submit"
             disabled={isLoading}
@@ -119,8 +109,8 @@ function Register() {
             {isLoading ? " please wait.." : " Register"}
           </button>
         </form>
-        <div className=" flex items-center justify-between pt-2">
-          <p className="font-bold">Already have an account?</p>
+        <div className="flex justify-between">
+          <p className="">Already have an account?</p>
           <button
             className="register__btn btn"
             onClick={() => {
