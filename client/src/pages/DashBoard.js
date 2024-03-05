@@ -46,7 +46,7 @@ const DashBoard = () => {
     { name: "History", image: historyImage, link: "/profile/transactions" },
     { name: "Contacts", image: contacts, link: "/profile/contacts" },
     { name: "my earnings", image: earnings, link: "/profile/earnings" },
-    { name: "Loan", image: loan, link: "/profile/loan" },
+    // { name: "Loan", image: loan, link: "/profile/loan" },
     { name: "withdraw", image: withdraw, link: "/profile" },
   ];
   const copyAccNo = async (number) => {
