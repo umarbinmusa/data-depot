@@ -20,6 +20,8 @@ function BuyData() {
     loadingText,
     selectedDataObj,
     contactName,
+    dataTypeOptions,
+    selectedDataType,
   } = useGlobalContext();
   const [addToContact, setAddToContact] = useState(false);
   const handleInputChange = (e) => {
@@ -68,6 +70,16 @@ function BuyData() {
             list={networkList}
             handleChange={handleInputChange}
           />
+          {selectedNetwork === "MTN" && (
+            <FormRowSelect
+              labelText="select data type"
+              name="selectedDataType"
+              value={selectedDataType}
+              list={isLoading ? [loadingText] : dataTypeOptions}
+              handleChange={handleInputChange}
+            />
+          )}
+
           <FormRowSelect
             labelText="select Plan"
             name="selectedPlan"
