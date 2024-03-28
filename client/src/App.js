@@ -12,7 +12,6 @@ import Profile from "./pages/SharedLayout";
 import NotFound from "./pages/NotFound";
 import BuyData from "./pages/BuyData";
 import DashBoard from "./pages/DashBoard";
-import Landing2 from "./pages/Landing2";
 import BuyAirtime from "./pages/BuyAirtime";
 import Transactions from "./pages/Transactions";
 import Transfer from "./pages/Transfer";
@@ -32,9 +31,12 @@ import Loading from "./components/Loading";
 import WhatsAppIcon from "./components/WhatsAppIcon";
 import BuyElectricity from "./pages/BuyElectricity";
 import UpdatePrice from "./pages/UpdatePrice";
-import MyEarnings from "./pages/MyEarnings";
+import CouponFunding from "./pages/CouponFunding";
+// import Withdraw from "./pages/Withdraw";
 import Contacts from "./pages/Contacts";
-import Loan from "./pages/Loan";
+import MyEarnings from "./pages/MyEarnings";
+import SmallNav from "./components/SmallNav";
+// import Partnership from "./pages/Partnership";
 
 export default function App() {
   const { token, checkLoggedIn, isLoading } = useGlobalContext();
@@ -48,9 +50,13 @@ export default function App() {
     <>
       {/* {isLoading && <Loading />} */}
       <WhatsAppIcon />
+      <SmallNav />
       <Routes>
         <Route exact path="/" element={<Landing />} />
+<<<<<<< HEAD
          <Route  path="Privacy-Policy" element={<Privacy />} /> 
+=======
+>>>>>>> 009d0d2de05f5eed58622d28c69b6da49831bb83
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register">
           <Route index element={<Register />} />
@@ -60,14 +66,16 @@ export default function App() {
           <Route index element={<DashBoard />} />
           <Route path="buyData" element={<BuyData />} />
           <Route path="buyAirtime" element={<BuyAirtime />} />
-          <Route path="transactions" element={<Transactions />} />
           <Route path="contacts" element={<Contacts />} />
           <Route path="earnings" element={<MyEarnings />} />
-          <Route path="loan" element={<Loan />} />
+          <Route path="transactions" element={<Transactions />} />
           <Route path="transfer" element={<Transfer />} />
           <Route path="user" element={<UserDetails />} />
           <Route path="changePassword" element={<Settings />} />
           <Route path="fundWallet" element={<FundWallet />} />
+          {/* <Route path="withdraw" element={<Withdraw />} />
+          <Route path="partnership" element={<Partnership />} /> */}
+          <Route path="fundWallet/coupon" element={<CouponFunding />} />
           <Route path="electricity" element={<BuyElectricity />} />
           <Route path="updatePrice" element={<UpdatePrice />} />
         </Route>
