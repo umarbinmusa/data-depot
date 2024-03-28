@@ -20,7 +20,6 @@ import Settings from "./pages/Settings";
 import FundWallet from "./pages/FundWallet";
 import RequestResetPassword from "./pages/RequestResetPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Privacy from "./pages/Privacy";
 
 import Admin from "./pages/Admin/Admin";
 import MyUsers from "./pages/Admin/MyUsers";
@@ -36,6 +35,7 @@ import CouponFunding from "./pages/CouponFunding";
 import Contacts from "./pages/Contacts";
 import MyEarnings from "./pages/MyEarnings";
 import SmallNav from "./components/SmallNav";
+import Privacy2 from "./pages/Privacy2";
 // import Partnership from "./pages/Partnership";
 
 export default function App() {
@@ -53,7 +53,7 @@ export default function App() {
       <SmallNav />
       <Routes>
         <Route exact path="/" element={<Landing />} />
-        <Route path="Privacy-Policy" element={<Privacy />} />
+        <Route path="Privacy-Policy" element={<Privacy2 />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register">
           <Route index element={<Register />} />

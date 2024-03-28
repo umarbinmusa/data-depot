@@ -1,4 +1,6 @@
-export default function Privacy() {
+import React from "react";
+
+const Privacy2 = () => {
   return (
     <div className="w-11/12 m-auto mt-4">
       <h1 className="title underline">Privacy Policy</h1>
@@ -404,4 +406,6 @@ export default function Privacy() {
       </ul>
     </div>
   );
-}
+};
+
+export default Privacy2;
