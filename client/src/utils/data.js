@@ -106,6 +106,11 @@ export const agentSideBarButton = [
     icon: <BsFillPersonFill />,
   },
   {
+    name: "Transfer ",
+    url: "/profile/transfer",
+    icon: <RiRefund2Fill />,
+  },
+  {
     name: "Update",
     url: "/profile/updatePrice",
     icon: <BiCreditCard />,

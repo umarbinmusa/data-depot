@@ -20,7 +20,7 @@ import Settings from "./pages/Settings";
 import FundWallet from "./pages/FundWallet";
 import RequestResetPassword from "./pages/RequestResetPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Privacy from "./pages/privacy";
+import Privacy from "./pages/Privacy";
 
 import Admin from "./pages/Admin/Admin";
 import MyUsers from "./pages/Admin/MyUsers";
@@ -53,10 +53,7 @@ export default function App() {
       <SmallNav />
       <Routes>
         <Route exact path="/" element={<Landing />} />
-<<<<<<< HEAD
-         <Route  path="Privacy-Policy" element={<Privacy />} /> 
-=======
->>>>>>> 009d0d2de05f5eed58622d28c69b6da49831bb83
+        <Route path="Privacy-Policy" element={<Privacy />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register">
           <Route index element={<Register />} />
