@@ -21,6 +21,7 @@ import Settings from "./pages/Settings";
 import FundWallet from "./pages/FundWallet";
 import RequestResetPassword from "./pages/RequestResetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Privacy from "./pages/privacy";
 
 import Admin from "./pages/Admin/Admin";
 import MyUsers from "./pages/Admin/MyUsers";
@@ -49,7 +50,7 @@ export default function App() {
       <WhatsAppIcon />
       <Routes>
         <Route exact path="/" element={<Landing />} />
-        {/* <Route exact path="/" element={<Landing2 />} /> */}
+         <Route  path="Privacy-Policy" element={<Privacy />} /> 
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register">
           <Route index element={<Register />} />
