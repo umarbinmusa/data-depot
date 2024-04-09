@@ -5,6 +5,7 @@ const Inbox = require("../Models/simInboxModel");
 const Services = require("../Models/services");
 
 const axios = require("axios");
+const bcrypt = require("bcrypt");
 const voucher_codes = require("voucher-code-generator");
 const sendEmail = require("../Utils/sendMail");
 const { REFUND_RECEIPT } = require("./TransactionReceipt");
@@ -389,6 +390,22 @@ const approveWithdrawal = async (req, res) => {
     res.status(500).json({ msg: "something went wrong" });
   }
 };
+const resetUserPassword = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const newPassword = "12345678";
+    const hashedPwd = await bcrypt.hash(newPassword, salt);
+    const { userName } = await User.findOne({ _id: userId });
+    await User.updateOne({ _id: userId }, { $set: { password: hashedPwd } });
+    res
+      .status(200)
+      .json({ msg: `${userName}'s password has been reset successfully` });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ msg: "something went wrong" });
+  }
+};
 module.exports = {
   adminDetails,
   generateCoupon,
@@ -403,4 +420,5 @@ module.exports = {
   getNotification,
   upgradeUser,
   approveWithdrawal,
+  resetUserPassword,
 };

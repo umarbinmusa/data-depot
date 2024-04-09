@@ -1054,6 +1054,19 @@ export const AppProvider = ({ children }) => {
       toast.error(e.response.data.msg);
     }
   };
+  const resetUserPassword = async (userId) => {
+    try {
+      dispatch({ type: START_LOADING });
+      const { data } = await authFetch.post("/admin/resetUserPassword", {
+        userId,
+      });
+      toast(data.msg);
+      dispatch({ type: STOP_LOADING });
+    } catch (e) {
+      toast.error(e.response.data.msg);
+      dispatch({ type: STOP_LOADING });
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -1111,6 +1124,7 @@ export const AppProvider = ({ children }) => {
         fetchReferralList,
         withdrawEarnings,
         getCostPriceAndSupplier,
+        resetUserPassword,
       }}
     >
       {children}
